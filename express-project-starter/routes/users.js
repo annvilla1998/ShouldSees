@@ -138,13 +138,13 @@ router.post('/login', csrfProtection, loginValidators,
           return res.redirect('/');
         }
       }
-      
+
       errors.push('Login failed for the provided email address and password');
     } else {
       console.log("hi")
       errors = validatorErrors.array().map((error) => error.msg);
     }
-    
+
     res.render('user-login', {
       title: 'Login',
       email,

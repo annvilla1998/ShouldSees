@@ -5,6 +5,7 @@ const loginUser = (req, res, user) => {
     req.session.auth = {
         userId: user.id,
     };
+    console.log('locals', res);
 };
 
 const logoutUser = (req, res) => {
