@@ -4,14 +4,17 @@ html
       block head
         title="Express Starter App"
         link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(rel='stylesheet' href='/stylesheets/login.css')
+        //- script(type='module' src='./public/javascripts/log-out.js')
         title Shouldsees - #{title}
   body
-    if locals.authenticated
-          span(class='navbar-text px-4')
-          form(class='form-inline pr-4' action='/users/logout' method='post')
-            button(id= 'logout' class='btn btn-sm btn-warning' type='submit') Logout
-    else
-          span(class='navbar-text px-4')
-            a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
-            a(class='btn btn-sm btn-dark' href='/users/register') Register
+    .login-container
+      if locals.authenticated
+            span(class='navbar-text px-4')
+            form(class='form-inline pr-4' action='/users/logout' method='post')
+              button(id= 'logout' class='btn btn-sm btn-warning' type='submit') Logout
+      else
+            span(class='navbar-text px-4')
+              a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
+              a(class='btn btn-sm btn-dark' href='/users/register') Register
     block content
