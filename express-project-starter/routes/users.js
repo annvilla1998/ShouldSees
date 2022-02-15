@@ -4,6 +4,7 @@ const db = require('../db/models');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const { loginUser, logoutUser } = require('../auth');
 
 
 
@@ -26,7 +27,15 @@ const userValidators = [
     .exists({ checkFalsy: true })
     .withMessage('Please provide a value for username')
     .isLength({ max: 50 })
-    .withMessage('Username must not be more than 50 characters long'),
+    .withMessage('Username must not be more than 50 characters long')
+    .custom((value) => {
+      return db.User.findOne({ where: { username: value } })
+        .then((user) => {
+          if (user) {
+            return Promise.reject('The provided Username is already in use by another account');
+          }
+        });
+    }),
   check('email')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a value for Email Address')
@@ -93,12 +102,60 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async(req,
   }
 }))
 
-
 router.get('/login', csrfProtection, (req, res) => {
   res.render('user-login', {
     title: 'Login',
     csrfToken: req.csrfToken(),
   });
+});
+
+const loginValidators = [
+  check('email')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Email Address'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Password'),
+];
+
+router.post('/login', csrfProtection, loginValidators,
+  asyncHandler(async (req, res) => {
+    const {
+      email,
+      password,
+    } = req.body;
+
+    let errors = [];
+    const validatorErrors = validationResult(req);
+
+    if (validatorErrors.isEmpty()) {
+      const user = await db.User.findOne({ where: { email } });
+      if (user !== null) {
+        const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
+
+        if (passwordMatch) {
+          loginUser(req, res, user);
+          return res.redirect('/');
+        }
+      }
+      
+      errors.push('Login failed for the provided email address and password');
+    } else {
+      console.log("hi")
+      errors = validatorErrors.array().map((error) => error.msg);
+    }
+    
+    res.render('user-login', {
+      title: 'Login',
+      email,
+      errors,
+      csrfToken: req.csrfToken(),
+    });
+  }));
+
+router.post('/logout', (req, res) => {
+  logoutUser(req, res);
+  res.redirect('/');
 });
 
 
