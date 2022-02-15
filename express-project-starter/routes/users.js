@@ -9,13 +9,13 @@ const { loginUser, logoutUser } = require('../auth');
 
 
 /* GET users listing. */
-router.get('/', csrfProtection, (req, res, next) =>{
+router.get('/', csrfProtection, (req, res, next) => {
   res.send('respond with a resource');
 });
 
 router.get('/register', csrfProtection, (req, res, next) => {
   const user = db.User.build();
-  res.render('user-register',{
+  res.render('user-register', {
     title: "Register",
     user,
     csrfToken: req.csrfToken()
@@ -71,7 +71,7 @@ const userValidators = [
     }),
 ];
 
-router.post('/register', csrfProtection, userValidators, asyncHandler(async(req, res, next) => {
+router.post('/register', csrfProtection, userValidators, asyncHandler(async (req, res, next) => {
   const {
     username,
     email,
