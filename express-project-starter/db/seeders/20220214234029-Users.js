@@ -1,53 +1,120 @@
 'use strict';
 
 const faker = require("faker");
-const bcrypt = require("bcryptjs");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+  
     return queryInterface.bulkInsert('Users', [
       {
-        username: 'John Wick',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
+        username: 'JohnWick',
+        hashedPassword: faker.internet.password(),
         email: 'john@wick.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        username: 'Peter Parker',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
+        username: 'PeterParker',
+        hashedPassword: faker.internet.password(),
         email: 'spider@web.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        username: 'Hank Hill',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
+        username: 'HankHill',
+        hashedPassword: faker.internet.password(),
         email: 'propane@aol.com',
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: faker.internet.userName(),
+        hashedPassword: faker.internet.password(),
+        email: faker.internet.email(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 
   down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
     return queryInterface.bulkDelete('Users', null, {});
   }
 };
