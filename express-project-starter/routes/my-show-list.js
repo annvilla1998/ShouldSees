@@ -7,10 +7,12 @@ const bcrypt = require('bcryptjs');
 
 
 router.get('/', asyncHandler(async (res, req) => {
+    const { currWatch, watched, wantWatch, userId } = req.body;
 
     const myShowList = await db.MyShowList.findAll({
         where: { userId }
     })
 
-})
-)
+}))
+
+module.exports = router;
