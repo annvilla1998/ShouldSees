@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content 
+    body 
+       each show in shows 
+            .showImage
+                a(target href=`/shows/${show.id}`)
+                    img(src=show.image)
+            .showName= show.name
+            .showGenre= show.genre
+            .showCriticRating= show.criticRating
+            
+        
+

@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content 
+    body 
+        .showImage
+            a(href=show.image)
+                img(src=show.image)
+        .showName= show.name
+        .showDescription= show.description
+        .showCast= show.cast
+        .showGenre= show.genre
+        .showCriticRating= show.criticRating
+            
+

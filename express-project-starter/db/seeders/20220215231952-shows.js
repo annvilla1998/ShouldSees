@@ -8,7 +8,7 @@ module.exports = {
       let showArr = [];
       while (i < num) {
         const show = {
-          image: faker.image.imageUrl(),
+          image: `${faker.image.imageUrl()}?random=${Date.now()}`,
           releaseDate: faker.date.past(),
           criticRating: faker.datatype.number() % 10,
           name: faker.random.words(),
