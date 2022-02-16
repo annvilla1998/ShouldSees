@@ -37,6 +37,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Show.associate = function (models) {
     // associations can be defined here
+    Show.belongsToMany(models.MyShowList, columnMapping);
+    Show.hasMany(models.Review, { foreignKey: 'showId' });
   };
   return Show;
 };

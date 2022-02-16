@@ -24,6 +24,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   MyShowList.associate = function (models) {
     // associations can be defined here
+    MyShowList.belongsTo(models.User, { foreignKey: 'userId' });
+
+      const columnMapping = {
+        otherKey: 'showId',
+        through: 'MyShowListShows',
+        foreignKey: 'myShowListId'
+      }
+
+      MyShowList.belongsToMany(models.Show, columnMapping);
   };
   return MyShowList;
 };
