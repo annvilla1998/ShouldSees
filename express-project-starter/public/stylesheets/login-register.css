@@ -30,8 +30,11 @@
 }
 
 .content {
-  margin: 0px 180px;
-  justify-content: space-between;
+  display: flex;
+  justify-content: center;
+  margin: 0px 140px;
+  /* width: 600px; */
+  /* text-align: center; */
 }
 
 fieldset {
@@ -47,8 +50,23 @@ fieldset {
   min-inline-size: min-content;
 }
 
+.form-group > label {
+  font-size: 12px;
+}
+
+.form-group > input {
+  float: left;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px 4px;
+  font-weight: bold;
+  font-family: "Lato", sans-serif;
+  width: 300px;
+  box-sizing: border-box;
+}
+
 .login-forms {
-  font-size: 100px;
   display: block;
   padding: 2px;
   font-family: "Lato", sans-serif;
@@ -56,9 +74,8 @@ fieldset {
 
 .register-forms {
   display: block;
-  font-family: "Lato", sans-serif;
   padding: 2px;
-  font-size: 20px;
+  font-family: "Lato", sans-serif;
 }
 
 .bottom-login-register-buttons {
@@ -66,4 +83,23 @@ fieldset {
   padding-top: 30px;
   padding-right: 10px;
   justify-content: space-between;
+}
+
+.bottom-login-register-buttons > button {
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 3px;
+  border: 1px solid #d6d0c4;
+  display: inline-block;
+  font-family: "Lato", sans-serif;
+  color: #333333;
+  background-color: #f4f1ea;
+  line-height: 1;
+}
+
+.bottom-login-register-buttons > p {
+  margin-left: 10px;
+  font-weight: normal;
+  font-family: "Lato", sans-serif;
+  font-size: 12px;
 }
