@@ -37,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Show.associate = function (models) {
     // associations can be defined here
+    const columnMapping = {
+      otherKey: 'myShowListId',
+      through: 'MyShowListShows',
+      foreignKey: 'showId'
+    }
     Show.belongsToMany(models.MyShowList, columnMapping);
     Show.hasMany(models.Review, { foreignKey: 'showId' });
   };

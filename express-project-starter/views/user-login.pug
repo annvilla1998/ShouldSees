@@ -1,25 +1,37 @@
-extends layout.pug
 
 include utils.pug
 
-block content
-  .login-container
-    div(class="logo")
-      a(target href='/')
-        img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
-    .content-box
-      h1 Sign in to Shouldsees
-      .content
-        fieldset
-          +validationErrorSummary(errors)
-          form(action='/users/login' method='post')
-            input(type='hidden' name='_csrf' value=csrfToken)
-            div(class='login-forms')
-              +field('Email address', 'email', email)
-            div(class='login-forms')
-              +field('Password', 'password', null, 'password')
-            div(class='bottom-login-register-buttons')
-              button(type='submit' id= 'login' class='btn btn-login') Sign in
-              div(class='signup-signin-link') Not a member?
-                a(href='/users/register') Sign up
-              //- a(href='/' id= 'cancel' class='cancel-login') Cancel
+doctype html
+html
+  head
+      block head
+        title="Express Starter App"
+        link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(rel='stylesheet' href='/stylesheets/login-register.css')
+        //- script(type='module' src='./public/javascripts/log-out.js')
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+        title Shouldsees - #{title}
+  body
+    .login-container
+      div(class="logo")
+        a(target href='/')
+          img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
+      .content-box
+        h1 Sign in to Shouldsees
+        .content
+          fieldset
+            +validationErrorSummary(errors)
+            form(action='/users/login' method='post')
+              input(type='hidden' name='_csrf' value=csrfToken)
+              div(class='login-forms')
+                +field('Email address', 'email', email)
+              div(class='login-forms')
+                +field('Password', 'password', null, 'password')
+              div(class='bottom-login-register-buttons')
+                button(type='submit' id= 'login' class='btn btn-login') Sign in
+                div(class='signup-signin-link') Not a member?
+                  a(href='/users/register') Sign up
+          //- a(href='/' id= 'cancel' class='cancel-login') Cancel

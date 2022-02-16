@@ -1,30 +1,42 @@
-extends layout.pug
 
 include utils.pug
 
-block content
-  .register-container
-    div(class="logo")
-        a(target href='/')
-            img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
-    .content-box
-        h1 Sign up for Shouldsees
-        h3 Sign up to keep track of shows you're currently watching, and the world's top rated shows.
-        .content
-            fieldset
-                +validationErrorSummary(errors)
-                form(action='/users/register' method='post')
-                    input(type='hidden' name='_csrf' value=csrfToken)
-                    div(class='register-forms')
-                        +field('Username', 'username', user.username)
-                    div(class='register-forms')
-                        +field('Email address', 'email', user.email)
-                    div(class='register-forms')
-                        +field('Password', 'password', user.password, 'password')
-                    div(class='register-forms')
-                        +field('Confirm Password', 'confirmPassword', '', 'password')
-                    div(class='bottom-login-register-buttons')
-                        button(type='submit' class='btn btn-primary') Sign up
-                        div(class='signup-signin-link') Already a member?
-                            a(href='/users/login') Sign in
-                        //- a(href='/' class='btn btn-warning ml-2') Cancel
+doctype html
+html
+    head
+        block head
+            title="Express Starter App"
+            link(rel='stylesheet' href='/stylesheets/reset.css')
+            link(rel='stylesheet' href='/stylesheets/login-register.css')
+            //- script(type='module' src='./public/javascripts/log-out.js')
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+            title Shouldsees - #{title}
+    body
+        .register-container
+            div(class="logo")
+                a(target href='/')
+                    img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
+            .content-box
+                h1 Sign up for Shouldsees
+                h3 Sign up to keep track of shows you're currently watching, and the world's top rated shows.
+                .content
+                    fieldset
+                        +validationErrorSummary(errors)
+                        form(action='/users/register' method='post')
+                            input(type='hidden' name='_csrf' value=csrfToken)
+                            div(class='register-forms')
+                                +field('Username', 'username', user.username)
+                            div(class='register-forms')
+                                +field('Email address', 'email', user.email)
+                            div(class='register-forms')
+                                +field('Password', 'password', user.password, 'password')
+                            div(class='register-forms')
+                                +field('Confirm Password', 'confirmPassword', '', 'password')
+                            div(class='bottom-login-register-buttons')
+                                button(type='submit' class='btn btn-primary') Sign up
+                                div(class='signup-signin-link') Already a member?
+                                    a(href='/users/login') Sign in
+                                //- a(href='/' class='btn btn-warning ml-2') Cancel
