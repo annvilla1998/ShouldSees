@@ -5,6 +5,8 @@ const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
+const { Show, Review, User } = db;
+
 router.get('/', asyncHandler(async(req,res) => {
     const shows = await db.Show.findAll();
     res.render('shows.pug',{
@@ -22,5 +24,10 @@ router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
     })
 }))
 
+router.get('/:id(\\d+)/review')
+
+router.post('/:id(\\d+)/review')
+
+// router.delete('/:id(\\d+)/review/:id(\\d+)')
 
 module.exports = router;
