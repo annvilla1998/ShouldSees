@@ -4,6 +4,9 @@ include utils.pug
 
 block content
   .register-container
+    div(class="logo")
+        a(target href='/')
+            img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
     .content-box
         h1 Sign up for Shouldsees
         h3 Sign up to keep track of shows you're currently watching, and the world's top rated shows.
@@ -22,7 +25,6 @@ block content
                         +field('Confirm Password', 'confirmPassword', '', 'password')
                     div(class='bottom-login-register-buttons')
                         button(type='submit' class='btn btn-primary') Sign up
-                        p Already a member?
-                        div(class='signup-signin-link')
-                            p: a(href='/users/login') Sign in
+                        div(class='signup-signin-link') Already a member?
+                            a(href='/users/login') Sign in
                         //- a(href='/' class='btn btn-warning ml-2') Cancel
