@@ -4,7 +4,7 @@ const db = require('../db/models');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const { requireAuth } = require('./auth.js')
+const { requireAuth } = require('../auth.js')
 
 const { Show, Review, User } = db;
 
@@ -26,7 +26,7 @@ router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
 }))
 
 router.get('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async(req,res)=> {
-    
+
 }))
 
 router.post('/:id(\\d+)/review')
