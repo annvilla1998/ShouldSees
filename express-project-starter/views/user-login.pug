@@ -3,14 +3,23 @@ extends layout.pug
 include utils.pug
 
 block content
-  +validationErrorSummary(errors)
-
-  form(class='login-forms' action='/users/login' method='post')
-    input(type='hidden' name='_csrf' value=csrfToken)
-    +field('Email Address', 'email', email)
-    +field('Password', 'password', null, 'password')
-    div(class='py-4')
-      button(type='submit' id= 'login' class='btn btn-login') Login
-      a(href='/' id= 'cancel' class='cancel-login') Cancel
-    div
-      p: a(href='/users/register') Don't have an account?
+  .login-container
+    div(class="logo")
+      a(target href='/')
+        img(src="https://img.icons8.com/clouds/150/000000/retro-tv.png")
+    .content-box
+      h1 Sign in to Shouldsees
+      .content
+        fieldset
+          +validationErrorSummary(errors)
+          form(action='/users/login' method='post')
+            input(type='hidden' name='_csrf' value=csrfToken)
+            div(class='login-forms')
+              +field('Email address', 'email', email)
+            div(class='login-forms')
+              +field('Password', 'password', null, 'password')
+            div(class='bottom-login-register-buttons')
+              button(type='submit' id= 'login' class='btn btn-login') Sign in
+              div(class='signup-signin-link') Not a member?
+                a(href='/users/register') Sign up
+              //- a(href='/' id= 'cancel' class='cancel-login') Cancel
