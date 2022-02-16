@@ -3,21 +3,21 @@ module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define('Review', {
     content: {
       allowNull: false,
-      type: Sequelize.TEXT
+      type: DataTypes.TEXT
     },
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: { model: 'Users' }
     },
     showsId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: { model: 'Shows' }
     },
     rating: {
       allowNull: false,
-      type: Sequelize.NUMERIC(2,1)
+      type: DataTypes.NUMERIC(2,1)
     },
   }, {});
   Review.associate = function(models) {

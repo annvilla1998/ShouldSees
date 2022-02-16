@@ -3,35 +3,35 @@ module.exports = (sequelize, DataTypes) => {
   const Show = sequelize.define('Show', {
     image: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     releaseDate: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     },
     criticRating: {
       allowNull: false,
-      type: Sequelize.NUMERIC(2, 1)
+      type: DataTypes.NUMERIC(2, 1)
     },
     name: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     description: {
       allowNull: false,
-      type: Sequelize.TEXT
+      type: DataTypes.TEXT
     },
     cast: {
       allowNull: false,
-      type: Sequelize.TEXT
+      type: DataTypes.TEXT
     },
     genre: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     myShowListId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: { model: 'MyShowLists' }
     }
   }, {});

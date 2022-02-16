@@ -4,21 +4,21 @@ module.exports = (sequelize, DataTypes) => {
     currWatch: {
       allowNull: false,
       defaultValue: false,
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
     watched: {
       allowNull: false,
       defaultValue: false,
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
     wantWatch: {
       allowNull: false,
       defaultValue: false,
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: { model: 'Users' }
     },
   }, {});
