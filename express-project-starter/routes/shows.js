@@ -28,6 +28,7 @@ router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
 
 
 router.get('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async(req,res)=> {
+
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId)
     const review = await Review.build();
@@ -51,6 +52,7 @@ router.post('/:id(\\d+)/review',requireAuth, reviewValidators, csrfProtection, a
     const review = await Review.create({ rating, content, showId: req.show.id, userId: req.user.id });
     
     res.redirect('/shows/:id(\\d+)')
+
 }))
 
 router.patch('/:id(\\d+)/review/edit')

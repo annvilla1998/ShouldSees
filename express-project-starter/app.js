@@ -11,6 +11,8 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const showsRouter = require('./routes/shows');
+const myShowsRouter = require('./routes/my-show-list')
+
 
 const app = express();
 
@@ -42,7 +44,9 @@ store.sync();
 
 app.use(restoreUser);
 
+
 app.use('/users', usersRouter);
+app.use('/myshowlist', myShowsRouter);
 app.use('/shows', showsRouter);
 app.use('/', indexRouter);
 
