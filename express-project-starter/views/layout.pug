@@ -22,13 +22,13 @@ html
         h1 Shouldsees
         .login-logout-if-else
           if locals.authenticated
-                span(class='navbar-text px-4')
-                form(class='form-inline pr-4' action='/users/logout' method='post')
-                  button(id= 'logout' class='button-logout' type='submit') Logout
+            span(class='navbar-text px-4')
+            form(class='form-inline pr-4' action='/users/logout' method='post')
+              button(id= 'logout' class='button-logout' type='submit') Logout
           else
-                span(class='login-logout-container')
-                  a(class='button-signin' href='/users/login') Sign In
-                  a(class='button-join' href='/users/register') Join
+            span(class='login-logout-container')
+              a(class='button-signin' href='/users/login') Sign In
+              a(class='button-join' href='/users/register') Join
       .header-primary-nav-container
         if locals.authenticated
           a(href='/') Home

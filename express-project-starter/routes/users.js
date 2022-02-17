@@ -127,7 +127,7 @@ router.post('/login', csrfProtection, loginValidators,
 
     let errors = [];
     const validatorErrors = validationResult(req);
-
+    // console.log('***', validatorErrors)
     if (validatorErrors.isEmpty()) {
       const user = await db.User.findOne({ where: { email } });
       if (user !== null) {
