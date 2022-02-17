@@ -105,7 +105,7 @@ router.post('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async
     const review = await db.Review.build({ content:req.body.review, showsId:showId, rating, userId: res.locals.user.id, });
 
     await review.save();
-    res.redirect('/shows');
+    res.redirect(`/shows/${review.showsId}`);
 }))
 
 module.exports = router;
