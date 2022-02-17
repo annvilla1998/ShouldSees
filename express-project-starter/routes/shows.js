@@ -52,7 +52,6 @@ router.post('/:id(\\d+)/review',requireAuth, reviewValidators, csrfProtection, a
     const review = await Review.create({ rating, content, showId: req.show.id, userId: req.user.id });
     
     res.redirect('/shows/:id(\\d+)')
-
 }))
 
 router.patch('/:id(\\d+)/review/edit')

@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: { model: 'Users' }
     },
   }, {});
   MyShowList.associate = function (models) {
@@ -28,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 
       const columnMapping = {
         otherKey: 'showsId',
-        through: 'MyShowListShows',
+        through: 'MyShowListShow',
         foreignKey: 'myShowListId'
       }
 
