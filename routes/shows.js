@@ -19,10 +19,15 @@ router.get('/', asyncHandler(async(req,res) => {
 router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId)
-
+    const reviews = await Review.findAll({
+        where: {
+            showsId: showId
+        }
+    })
     res.render('show-details.pug', {
         show,
-        showId
+        showId,
+        reviews
     })
 }))
 
@@ -86,11 +91,11 @@ router.get('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async(
 
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId)
-    const review = await Review.build();
+    const reviews = await Review.build();
     res.render("review.pug", {
         show,
         showId,
-        review,
+        reviews,
         csrfToken: req.csrfToken()
     })
 }))
