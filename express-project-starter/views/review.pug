@@ -1,0 +1,31 @@
+extends layout.pug
+
+include utils.pug
+
+block content 
+    body 
+        .showImage
+            a(href=`/shows/${showId}`)
+                img(src=show.image)
+        .show=show.name
+        fieldset
+            +validationErrorSummary(errors)
+            form(action='/users/login' method='post')
+                input(type='hidden' name='_csrf' value=csrfToken)
+                label(for='review-dropdown') 
+                select(name='review-dropdown' id='review-dropdown')
+                    option(value='') --Rating--
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+                    option(value="4") 4
+                    option(value="5") 5
+                    option(value="6") 6
+                    option(value="7") 7
+                    option(value="8") 8
+                    option(value="9") 9
+                    option(value="10") 10
+                div(class='review-form')
+                    +field('Review', 'review', review.content)
+                div(class='submit-review-button')
+                    button(type='submit' class='post-button') Post
