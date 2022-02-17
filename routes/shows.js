@@ -24,6 +24,7 @@ router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
             showsId: showId
         }
     })
+    console.log(reviews)
     res.render('show-details.pug', {
         show,
         showId,
