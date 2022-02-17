@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #fbfbec;
+}
+
+.show-container {
+  /* display: flex;
+  justify-content: space-between;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 20px;
+  margin-right: 10px; */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  column-gap: 10px;
+  row-gap: 15px;
+}
+
+.individual-show-container {
+  display: flex;
+  flex-direction: column;
+}
