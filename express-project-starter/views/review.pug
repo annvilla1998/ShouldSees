@@ -28,4 +28,5 @@ block content
                 div(class='review-form')
                     +field('Review', 'review', review.content)
                 div(class='submit-review-button')
-                    button(type='submit' class='post-button') Post
+                    a(target href=`/shows/${show.id}`)
+                        button(type='submit' class='post-button') Post

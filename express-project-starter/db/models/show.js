@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     releaseDate: {
       allowNull: false,
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     criticRating: {
       allowNull: false,
@@ -32,14 +32,13 @@ module.exports = (sequelize, DataTypes) => {
     myShowListId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: { model: 'MyShowLists' }
     }
   }, {});
   Show.associate = function (models) {
     // associations can be defined here
     const columnMapping = {
       otherKey: 'myShowListId',
-      through: 'MyShowListShows',
+      through: 'MyShowListShow',
       foreignKey: 'showsId'
     }
     Show.belongsToMany(models.MyShowList, columnMapping);

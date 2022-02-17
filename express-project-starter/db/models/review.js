@@ -8,12 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: { model: 'Users' }
     },
     showsId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: { model: 'Shows' }
     },
     rating: {
       allowNull: false,
