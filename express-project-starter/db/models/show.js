@@ -40,10 +40,10 @@ module.exports = (sequelize, DataTypes) => {
     const columnMapping = {
       otherKey: 'myShowListId',
       through: 'MyShowListShows',
-      foreignKey: 'showId'
+      foreignKey: 'showsId'
     }
     Show.belongsToMany(models.MyShowList, columnMapping);
-    Show.hasMany(models.Review, { foreignKey: 'showId' });
+    Show.hasMany(models.Review, { foreignKey: 'showsId' });
   };
   return Show;
 };
