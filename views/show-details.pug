@@ -12,5 +12,13 @@ block content
         .showCriticRating= show.criticRating
         a(href=`/shows/${show.id}/review`)
             button(class="write-review-button") Write Review
+
+        .reviewsList 
+            ul 
+            each review in reviews
+                li= review.userId
+                li= review.rating
+                    ul 
+                        li= review.content  
             
 
