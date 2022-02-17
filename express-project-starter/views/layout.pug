@@ -11,14 +11,17 @@ html
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
         title Shouldsees - #{title}
   body
-    if locals.authenticated
-          span(class='navbar-text px-4')
-          form(class='form-inline pr-4' action='/users/logout' method='post')
-            button(id= 'logout' class='btn btn-sm btn-warning' type='submit') Logout
-    else
-          span(class='navbar-text px-4')
-            a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
-            a(class='btn btn-sm btn-dark' href='/users/register') Register
+    .nav-bar
+      if locals.authenticated
+            span(class='navbar-text px-4')
+            form(class='form-inline pr-4' action='/users/logout' method='post')
+              button(id= 'logout' class='btn btn-sm btn-warning' type='submit') Logout
+      else
+            span(class='navbar-text px-4')
+              a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
+              a(class='btn btn-sm btn-dark' href='/users/register') Register
   block content

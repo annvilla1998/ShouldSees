@@ -1,3 +1,7 @@
+html {
+  margin-top: 15px;
+}
+
 body {
   background-color: #fbfbec;
   display: block;

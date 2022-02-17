@@ -1,13 +1,15 @@
 extends layout.pug
 
 block content
-    body
+    .page-content
+        h1 Browse all shows
         .show-container
             each show in shows
                 .individual-show-container
                     .showImage
                         a(target href=`/shows/${show.id}`)
                             img(src=show.image)
-                    .showName= show.name
-                    .showGenre= show.genre
-                    .showCriticRating= show.criticRating
+                    .show-title
+                        .showName= show.name
+                        .showGenre= show.genre
+                        .showCriticRating= show.criticRating
