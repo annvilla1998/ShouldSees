@@ -2,22 +2,40 @@ doctype html
 html
   head
       block head
-        title="Express Starter App"
+        title="Shouldsees"
         link(rel='stylesheet' href='/stylesheets/reset.css')
-        link(rel='stylesheet' href='/stylesheets/login-register.css')
+        link(rel='stylesheet' href='/stylesheets/navbar.css')
         //- script(type='module' src='./public/javascripts/log-out.js')
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
         title Shouldsees - #{title}
   body
-    if locals.authenticated
-          span(class='navbar-text px-4')
-          form(class='form-inline pr-4' action='/users/logout' method='post')
-            button(id= 'logout' class='btn btn-sm btn-warning' type='submit') Logout
-    else
-          span(class='navbar-text px-4')
-            a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
-            a(class='btn btn-sm btn-dark' href='/users/register') Register
+    .nav-bar
+      .nav-bar-content
+        div(class="logo")
+          a(target href='/')
+            img(src="https://img.icons8.com/clouds/100/000000/retro-tv.png")
+        h1 Shouldsees
+        .login-logout-if-else
+          if locals.authenticated
+                span(class='navbar-text px-4')
+                form(class='form-inline pr-4' action='/users/logout' method='post')
+                  button(id= 'logout' class='button-logout' type='submit') Logout
+          else
+                span(class='login-logout-container')
+                  a(class='button-signin' href='/users/login') Sign In
+                  a(class='button-join' href='/users/register') Join
+      .header-primary-nav-container
+        if locals.authenticated
+          a(href='/') Home
+          a(href='/shows') My Shows
+          a(href='/shows') Browse
+        else
+          a(href='/') Home
+          a(href='/users/register') My Shows
+          a(href='/shows') Browse
   block content
