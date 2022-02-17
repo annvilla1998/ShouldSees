@@ -46,7 +46,7 @@ app.use(restoreUser);
 
 
 app.use('/users', usersRouter);
-app.use('/myshowlist', myShowsRouter);
+app.use('/my-show-list', myShowsRouter);
 app.use('/shows', showsRouter);
 app.use('/', indexRouter);
 

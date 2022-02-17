@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     MyShowList.belongsTo(models.User, { foreignKey: 'userId' });
 
       const columnMapping = {
-        otherKey: 'showId',
+        otherKey: 'showsId',
         through: 'MyShowListShows',
         foreignKey: 'myShowListId'
       }

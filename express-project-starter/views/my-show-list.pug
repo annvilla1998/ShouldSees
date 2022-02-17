@@ -1,0 +1,12 @@
+extends layout.pug
+
+block content
+    body
+       each show in myShows
+            .showImage
+                a(target href=`/shows/${show.id}`)
+                    img(src=show.image)
+            .showName= show.currWatch
+            .showGenre= show.watching
+            .showCriticRating= show.wantWatch
+            //- .showImage=show.Show.image
