@@ -90,7 +90,7 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
     user.hashedPassword = hashedPassword;
     await user.save();
     loginUser(req, res, user);
-    res.redirect('/');
+    req.session.save(() => res.redirect('/'));
   } else {
     const errors = validatorErrors.array().map((error) => error.msg);
     res.render('user-register', {
@@ -135,7 +135,8 @@ router.post('/login', csrfProtection, loginValidators,
 
         if (passwordMatch) {
           loginUser(req, res, user);
-          return res.redirect('/');
+          // req.session.save(() => res.redirect('/'));
+          res.redirect('/');
         }
       }
 
@@ -155,7 +156,7 @@ router.post('/login', csrfProtection, loginValidators,
 
 router.post('/logout', (req, res) => {
   logoutUser(req, res);
-  res.redirect('/');
+  req.session.save(() => res.redirect('/'));
 });
 
 
