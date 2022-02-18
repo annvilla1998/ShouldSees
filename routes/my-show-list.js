@@ -10,18 +10,19 @@ const { User, MyShowList, Show } = db;
 router.get('/', asyncHandler(async (req, res) => {
 
     // const showList = db.myShowList.build();
-    const myShows = await MyShowList.findAll({
-        include: {
-            model: MyShowList,
-            include: Show
-        }
-    });
+    // const myShows = await MyShowList.findAll({
+    //     include: {
+    //         model: MyShowList,
+    //         include: Show
+    //     }
+    // });
 
-    console.log('&&&&&&&&&&&&&&&&', myShows.Show);
 
-    res.render('my-show-list',{
-        myShows
-    })
+
+    // console.log('&&&&&&&&&&&&&&&&', myShows.Show);
+
+    res.render('my-show-list'
+    )
 
 
 
