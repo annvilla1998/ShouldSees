@@ -1,6 +1,7 @@
 extends layout.pug
 
 block content
+    script(src="/javascripts/index.js" type="module")
     body
         .showImage
             a(href=show.image)
@@ -10,9 +11,16 @@ block content
         .showCast= show.cast
         .showGenre= show.genre
         .showCriticRating= show.criticRating
+        .watch-status
+            form(action=`/shows/${show.id}` method="POST")
+                select(class="watch-status-select" id="watch-status-select")
+                    option(value="") --Select--
+                    option(value="0") Want to Watch
+                    option(value="1") Currently Watching
+                    option(value="2") Watched
+                //- button(type="submit" value="Submit").watch-status-button Submit
         a(href=`/shows/${show.id}/review`)
             button(class="write-review-button") Write Review
-
         .reviewsList
             ul
             each review in reviews
