@@ -1,21 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../db/models');
-const { csrfProtection, asyncHandler } = require('./utils');
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const myshowlistshow = require('../db/models/myshowlistshow');
-const { requireAuth } = require('../auth.js')
+const db = require("../db/models");
+const { csrfProtection, asyncHandler } = require("./utils");
+const { check, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const myshowlistshow = require("../db/models/myshowlistshow");
+const { requireAuth } = require("../auth.js");
 const { User, MyShowList, Show, MyShowListShow } = db;
 
-router.get('/', requireAuth, asyncHandler(async (req, res) => {
+router.get(
+  "/",
+  requireAuth,
+  asyncHandler(async (req, res) => {
     const { userId } = req.session.auth;
 
     const user = await User.findByPk(userId, {
-        include: {
-            model: MyShowList
-        }
-    })
+      include: {
+        model: MyShowList,
+      },
+    });
 
     // const myShowLists = user.MyShowLists;
 
@@ -38,13 +41,13 @@ router.get('/', requireAuth, asyncHandler(async (req, res) => {
     // })
 
     const lists = await MyShowList.findAll({
-        where: {
-            userId:1
-        },
-        include: {
-            model: Show
-        }
-    })
+      where: {
+        userId: 1,
+      },
+      include: {
+        model: Show,
+      },
+    });
 
     const wantToWatch = lists[0].Shows;
 
@@ -81,15 +84,13 @@ router.get('/', requireAuth, asyncHandler(async (req, res) => {
     //     }
     // })
 
-    console.log("&&&&&&&&&&&&&&&&&&", lists[0].Shows)
-
-    res.render('my-show-list.pug', {
-        user,
-        wantToWatch,
-        currentlyWatching,
-        watched
-    })
-
-}))
+    res.render("my-show-list.pug", {
+      user,
+      wantToWatch,
+      currentlyWatching,
+      watched,
+    });
+  })
+);
 
 module.exports = router;
