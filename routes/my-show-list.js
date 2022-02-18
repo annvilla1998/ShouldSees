@@ -21,11 +21,11 @@ router.get('/', requireAuth, asyncHandler(async (req, res) => {
     const showLists = user.MyShowLists;
     const shows = showLists.Shows;
 
-    console.log("&&&&&&&&&&&&&&&&&&", showLists.MyShowList)
+    // console.log("&&&&&&&&&&&&&&&&&&", showLists.MyShowList)
 
-    res.render('my-show-list.pug', {
+    // res.render('my-show-list.pug', {
 
-    })
+    // })
 
 }))
 
