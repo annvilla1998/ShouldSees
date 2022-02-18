@@ -1,7 +1,7 @@
 extends layout.pug
 
-block content 
-    body 
+block content
+    body
         .showImage
             a(href=show.image)
                 img(src=show.image)
@@ -13,12 +13,10 @@ block content
         a(href=`/shows/${show.id}/review`)
             button(class="write-review-button") Write Review
 
-        .reviewsList 
-            ul 
+        .reviewsList
+            ul
             each review in reviews
-                li= review.userId
+                li= review.User.username
                 li= review.rating
-                    ul 
-                        li= review.content  
-            
-
+                    ul
+                        li= review.content
