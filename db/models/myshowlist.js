@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'myShowListId'
       }
 
-      MyShowList.belongsToMany(models.Show, columnMapping);
+    MyShowList.belongsToMany(models.Show, columnMapping);
   };
   return MyShowList;
 };
