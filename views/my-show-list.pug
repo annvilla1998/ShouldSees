@@ -2,34 +2,70 @@ extends layout.pug
 
 block content
     body
-       h1 My Shows
-            a(href='') Currently Watching
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
-            a(href='') Want to Watch
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
-            a(href='') Have Watched
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
+        h1 My Shows
+            .show-container
+                h2 Want To Watch
+                each show in wantToWatch
+                    .show= show.name
+                    .individual-list-container
+                        .showImage
+                            a(target href=`/shows/${show.id}`)
+                                img(src=show.image)
+                        .show-title
+                            .showName= show.name
+                            .showGenre= show.genre
+                            .showCriticRating= show.criticRating
+                h2 Currently Watching
+                each show in currentlyWatching
+                    .show= show.name
+                    .individual-list-container
+                        .showImage
+                            a(target href=`/shows/${show.id}`)
+                                img(src=show.image)
+                        .show-title
+                            .showName= show.name
+                            .showGenre= show.genre
+                            .showCriticRating= show.criticRating
+                h2 Watched
+                each show in watched
+                    .show= show.name
+                    .individual-list-container
+                        .showImage
+                            a(target href=`/shows/${show.id}`)
+                                img(src=show.image)
+                        .show-title
+                            .showName= show.name
+                            .showGenre= show.genre
+                            .showCriticRating= show.criticRating
+
+    //-    h1 My Shows
+    //-         a(href='') Currently Watching
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
+    //-         a(href='') Want to Watch
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
+    //-         a(href='') Have Watched
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
