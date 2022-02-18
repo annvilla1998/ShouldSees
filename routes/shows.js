@@ -120,6 +120,8 @@ router.post(
       //change to the list that the user wants it to be in
       //lists[whatever number value of dropdown user chooses]++ PUSH
     }
+
+    //if they press select, don't do anything
   })
 );
 
