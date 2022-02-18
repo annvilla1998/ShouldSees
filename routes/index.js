@@ -7,7 +7,16 @@ const bcrypt = require('bcryptjs');
 
 /* GET home page. */
 router.get('/', csrfProtection, asyncHandler(async(req, res, next) => {
-  res.render('index', { title: 'Shouldsees' });
+  const shows = await db.Show.findAll({
+    order: [
+      ['criticRating', 'DESC']
+    ]
+  });
+
+  res.render('index', { 
+    title: 'Shouldsees',
+    shows
+   });
 }));
 
 module.exports = router;

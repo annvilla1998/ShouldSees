@@ -10,8 +10,20 @@ block content
     body 
       .welcomeText
         h1 Welcome To Shouldsees! 
-      .topRated 
-        h2 Top Rated
+      .top-rated-container
+        .topRated 
+          p Top Rated
+          .outer-wrapper 
+            .wrapper
+              each show in shows 
+                .showImages
+                  a(href=`/shows/${show.id}`)
+                        img(src=show.image)
+                  .show-title
+                    .showName= show.name
+                    .showGenre= show.genre
+                    .showCriticRating= show.criticRating
+              
 
 
 
