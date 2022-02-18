@@ -4,7 +4,7 @@ const faker = require("faker");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-  
+
     return queryInterface.bulkInsert('Users', [
       {
         username: 'JohnWick',
@@ -61,56 +61,7 @@ module.exports = {
         email: faker.internet.email(),
         createdAt: new Date(),
         updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        username: faker.internet.userName(),
-        hashedPassword: faker.internet.password(),
-        email: faker.internet.email(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+      }
     ], {});
   },
 

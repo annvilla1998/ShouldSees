@@ -36,11 +36,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      myShowListId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'MyShowLists' }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

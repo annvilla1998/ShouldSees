@@ -8,20 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      currWatch: {
+      listName: {
         allowNull: false,
         defaultValue: false,
-        type: Sequelize.BOOLEAN
-      },
-      watched: {
-        allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN
-      },
-      wantWatch: {
-        allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       userId: {
         allowNull: false,

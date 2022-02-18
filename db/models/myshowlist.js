@@ -1,20 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const MyShowList = sequelize.define('MyShowList', {
-    currWatch: {
+    listName: {
       allowNull: false,
       defaultValue: false,
-      type: DataTypes.BOOLEAN
-    },
-    watched: {
-      allowNull: false,
-      defaultValue: false,
-      type: DataTypes.BOOLEAN
-    },
-    wantWatch: {
-      allowNull: false,
-      defaultValue: false,
-      type: DataTypes.BOOLEAN
+      type: DataTypes.STRING
     },
     userId: {
       allowNull: false,
