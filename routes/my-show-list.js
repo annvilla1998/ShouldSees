@@ -49,6 +49,10 @@ router.get(
       },
     });
 
+
+    const { currWatch, watched, wantWatch, userId } = req.body;
+    // const { myShowListId } = req.body;
+
     const wantToWatch = lists[0].Shows;
 
     const currentlyWatching = lists[1].Shows;
@@ -84,6 +88,7 @@ router.get(
     //     }
     // })
 
+
     res.render("my-show-list.pug", {
       user,
       wantToWatch,
@@ -92,5 +97,18 @@ router.get(
     });
   })
 );
+
+    // console.log('am i in here')
+    // res.render('my-show-list.pug');
+
+//     res.render('my-show-list.pug', {
+//         user,
+//         wantToWatch,
+//         currentlyWatching,
+//         watched
+//     })
+
+}))
+
 
 module.exports = router;

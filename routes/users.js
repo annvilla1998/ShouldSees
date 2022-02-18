@@ -8,6 +8,15 @@ const { loginUser, logoutUser } = require('../auth');
 
 
 
+router.get('/login/demo', csrfProtection, asyncHandler(async(req,res) => {
+  const demoUser = await db.User.findByPk(1)
+  
+  loginUser(req, res, demoUser)
+  res.redirect('/')
+}))
+
+
+
 /* GET users listing. */
 router.get('/', csrfProtection, (req, res, next) => {
   res.send('respond with a resource');
@@ -187,6 +196,9 @@ router.post('/login', csrfProtection, loginValidators,
       csrfToken: req.csrfToken(),
     });
   }));
+
+
+
 
 router.post('/logout', (req, res) => {
   logoutUser(req, res);

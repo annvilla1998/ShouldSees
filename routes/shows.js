@@ -164,4 +164,56 @@ router.post(
   })
 );
 
+
+router.get('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
+    const reviewId = parseInt(req.params.id, 10);
+    const { userId } = req.session.auth
+    const review = await db.Review.findByPk(reviewId,{
+        include: {
+            model: User
+        }
+    })
+    const show = await db.Show.findOne({
+        where:{
+            id: review.showsId
+        }
+    })
+
+    if (userId !== review.userId) {
+        const err = new Error("Unauthorized");
+        err.status = 401;
+        err.message = "You are not authorized to edit this review.";
+        err.title = "Unauthorized";
+        throw err;
+      }
+    res.render('edit-review.pug',{
+        review,
+        reviewId,
+        show,
+        csrfToken: req.csrfToken()
+    })
+}))
+
+
+router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
+    const reviewId = parseInt(req.params.id, 10);
+    let reviewToUpdate = await db.Show.findByPk(reviewId)
+    const { userId } = req.session.auth
+
+    const { rating } = req.body;
+
+    reviewToUpdate = { content:req.body.review, rating};
+
+    if (userId !== reviewToUpdate.userId) {
+        const err = new Error("Unauthorized");
+        err.status = 401;
+        err.message = "You are not authorized to edit this review.";
+        err.title = "Unauthorized";
+        throw err;
+      }
+    await reviewToUpdate.save();
+    res.redirect(`/shows/${reviewToUpdate.showsId}`);
+}))
+
+
 module.exports = router;
