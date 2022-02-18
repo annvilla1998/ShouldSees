@@ -8,6 +8,15 @@ const { loginUser, logoutUser } = require('../auth');
 
 
 
+router.get('/login/demo', csrfProtection, asyncHandler(async(req,res) => {
+  const demoUser = await db.User.findByPk(1)
+  
+  loginUser(req, res, demoUser)
+  res.redirect('/')
+}))
+
+
+
 /* GET users listing. */
 router.get('/', csrfProtection, (req, res, next) => {
   res.send('respond with a resource');
@@ -83,12 +92,46 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
     email
   })
 
+  const {
+    listName,
+    userId
+  } = req.body
+  console.log('uuuuser', user)
+
+
+
   const validatorErrors = validationResult(req);
 
   if (validatorErrors.isEmpty()) {
     const hashedPassword = await bcrypt.hash(password, 10);
     user.hashedPassword = hashedPassword;
+
+
+
     await user.save();
+
+    let wantWatch = db.MyShowList.build({
+
+      listName: "Want to Watch",
+      userId: user.id
+    })
+
+    let currentWatch = db.MyShowList.build({
+
+        listName: "Currently Watching",
+        userId: user.id
+    })
+
+    let watched =  db.MyShowList.build({
+
+        listName: "Watched",
+        userId: user.id
+    })
+
+    await wantWatch.save();
+    await currentWatch.save();
+    await watched.save();
+
     loginUser(req, res, user);
     req.session.save(() => res.redirect('/'));
   } else {
@@ -153,6 +196,9 @@ router.post('/login', csrfProtection, loginValidators,
       csrfToken: req.csrfToken(),
     });
   }));
+
+
+
 
 router.post('/logout', (req, res) => {
   logoutUser(req, res);

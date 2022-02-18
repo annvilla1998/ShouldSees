@@ -67,6 +67,7 @@ router.post('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async
     res.redirect(`/shows/${review.showsId}`);
 }))
 
+
 router.get('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
     const reviewId = parseInt(req.params.id, 10);
     const { userId } = req.session.auth
@@ -116,5 +117,6 @@ router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(as
     await reviewToUpdate.save();
     res.redirect(`/shows/${reviewToUpdate.showsId}`);
 }))
+
 
 module.exports = router;
