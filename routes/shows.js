@@ -67,4 +67,27 @@ router.post('/:id(\\d+)/review', requireAuth, csrfProtection, asyncHandler(async
     res.redirect(`/shows/${review.showsId}`);
 }))
 
+router.get('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
+    const reviewId = parseInt(req.params.id, 10);
+    const review = await db.Review.findByPk(reviewId,{
+        include: {
+            model: User
+        }
+    })
+    const show = await db.Show.findOne({
+        where:{
+            id: review.showsId
+        }
+    })
+    res.render('edit-review.pug',{
+        review,
+        reviewId,
+        show,
+        csrfToken: req.csrfToken()
+    })
+}))
+
+
+router.post('/review/:id(\\d+)/edit')
+
 module.exports = router;
