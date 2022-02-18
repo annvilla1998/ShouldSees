@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     genre: {
       allowNull: false,
       type: DataTypes.STRING
-    },
-    myShowListId: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
     }
   }, {});
   Show.associate = function (models) {
