@@ -11,21 +11,84 @@ const { User, MyShowList, Show, MyShowListShow } = db;
 router.get('/', requireAuth, asyncHandler(async (req, res) => {
     const { userId } = req.session.auth;
 
-    const user = await User.findByPk(1, {
+    const user = await User.findByPk(userId, {
         include: {
-            model: MyShowList,
-            include: Show
+            model: MyShowList
         }
     })
 
-    const showLists = user.MyShowLists;
-    const shows = showLists.Shows;
+    // const myShowLists = user.MyShowLists;
 
-    // console.log("&&&&&&&&&&&&&&&&&&", showLists.MyShowList)
-
-    // res.render('my-show-list.pug', {
-
+    // const showLists = await MyShowList.findAll({
+    //     where: {
+    //         userId: 1
+    //     },
+    //     include: {
+    //         model: Show
+    //     }
     // })
+
+    // const shows = await MyShowListShow.findAll({
+    //     include: {
+    //         model: Show,
+    //     },
+    //     where: {
+    //         showId:Show.id
+    //     }
+    // })
+
+    const lists = await MyShowList.findAll({
+        where: {
+            userId:1
+        },
+        include: {
+            model: Show
+        }
+    })
+
+    const wantToWatch = lists[0].Shows;
+
+    const currentlyWatching = lists[1].Shows;
+
+    const watched = lists[2].Shows;
+
+    // const shows = () => {
+    //     for (let i = 0; i < lists.length; i++) {
+    //         console.log(lists[i].listName)
+    //         for (let j = 0; j < lists[i].Shows.length; j++) {
+    //             console.log(lists[i].Shows[j])
+    //         }
+    //         console.log("\n\n\n\n")
+    //     }
+    // }
+
+    // const shows = await MyShowListShow.findAll({
+    //     where
+    // })
+
+    // const shows = await Show.findAll({
+    //     where: {
+    //         showId:Show.id
+    //     },
+    //     include: {
+    //         model: MyShowList
+    //     }
+    // })
+
+    // const showlistshows = await MyShowListShow.findAll({
+    //     where: {
+
+    //     }
+    // })
+
+    console.log("&&&&&&&&&&&&&&&&&&", lists[0].Shows)
+
+    res.render('my-show-list.pug', {
+        user,
+        wantToWatch,
+        currentlyWatching,
+        watched
+    })
 
 }))
 

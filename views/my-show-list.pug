@@ -1,35 +1,75 @@
 extends layout.pug
 
+append head
+    link(rel='stylesheet' href='/stylesheets/my-show-list.css')
+
 block content
     body
-       h1 My Shows
-            a(href='') Currently Watching
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
-            a(href='') Want to Watch
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
-            a(href='') Have Watched
-                table
-                    thead
-                        tr
-                            th Image
-                            th Title
-                            th Release Date
-                            th Critic Rating
-                            th My Rating
-                    tbody
+        .page-container
+            .show-container
+                h1 My Shows
+                .want-to-watch
+                    h2 Want To Watch
+                    each show in wantToWatch
+                        .individual-list-container
+                            .showImage
+                                a(target href=`/shows/${show.id}`)
+                                    img(src=show.image)
+                            .show-title
+                                .showName= show.name
+                                .showGenre= show.genre
+                                .showCriticRating= show.criticRating
+                .current-watching
+                    h2 Currently Watching
+                    each show in currentlyWatching
+                        .individual-list-container
+                            .showImage
+                                a(target href=`/shows/${show.id}`)
+                                    img(src=show.image)
+                            .show-title
+                                .showName= show.name
+                                .showGenre= show.genre
+                                .showCriticRating= show.criticRating
+                .watched
+                    h2 Watched
+                    each show in watched
+                        .individual-list-container
+                            .showImage
+                                a(target href=`/shows/${show.id}`)
+                                    img(src=show.image)
+                            .show-title
+                                .showName= show.name
+                                .showGenre= show.genre
+                                .showCriticRating= show.criticRating
+
+    //-    h1 My Shows
+    //-         a(href='') Currently Watching
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
+    //-         a(href='') Want to Watch
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
+    //-         a(href='') Have Watched
+    //-             table
+    //-                 thead
+    //-                     tr
+    //-                         th Image
+    //-                         th Title
+    //-                         th Release Date
+    //-                         th Critic Rating
+    //-                         th My Rating
+    //-                 tbody
