@@ -22,9 +22,9 @@ html
         h1 Shouldsees
         .login-logout-if-else
           if locals.authenticated
-            span(class='navbar-text px-4')
-            form(class='form-inline pr-4' action='/users/logout' method='post')
-              button(id= 'logout' class='button-logout' type='submit') Logout
+            span(class='login-logout-container')
+              form(class='form-inline pr-4' action='/users/logout' method='post')
+                button(id= 'logout' class='button-logout' type='submit') Logout
           else
             span(class='login-logout-container')
               a(class='button-signin' href='/users/login') Sign In
@@ -32,7 +32,7 @@ html
       .header-primary-nav-container
         if locals.authenticated
           a(href='/') Home
-          a(href='/shows') My Shows
+          a(href='/my-show-list') My Shows
           a(href='/shows') Browse
         else
           a(href='/') Home

@@ -5,38 +5,96 @@ const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const myshowlistshow = require('../db/models/myshowlistshow');
-const { User, MyShowList, Show } = db;
+const { requireAuth } = require('../auth.js')
+const { User, MyShowList, Show, MyShowListShow } = db;
 
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/', requireAuth, asyncHandler(async (req, res) => {
+    const { userId } = req.session.auth;
 
-    // const showList = db.myShowList.build();
-    const myShows = await MyShowList.findAll({
+    const user = await User.findByPk(userId, {
         include: {
-            model: MyShowList,
-            include: Show
+            model: MyShowList
         }
-    });
-
-    console.log('&&&&&&&&&&&&&&&&', myShows.Show);
-
-    res.render('my-show-list',{
-        myShows
     })
+
+    // const myShowLists = user.MyShowLists;
+
+    // const showLists = await MyShowList.findAll({
+    //     where: {
+    //         userId: 1
+    //     },
+    //     include: {
+    //         model: Show
+    //     }
+    // })
+
+    // const shows = await MyShowListShow.findAll({
+    //     include: {
+    //         model: Show,
+    //     },
+    //     where: {
+    //         showId:Show.id
+    //     }
+    // })
+
+    const lists = await MyShowList.findAll({
+        where: {
+            userId:1
+        },
+        include: {
+            model: Show
+        }
+    })
+
 
     const { currWatch, watched, wantWatch, userId } = req.body;
     // const { myShowListId } = req.body;
 
-    // console.log('req.body', req.body);
+    const wantToWatch = lists[0].Shows;
 
-    // const shows = await db.Show.findAll({
-    //     where: { myShowListId }
+    const currentlyWatching = lists[1].Shows;
+
+    const watched = lists[2].Shows;
+
+    // const shows = () => {
+    //     for (let i = 0; i < lists.length; i++) {
+    //         console.log(lists[i].listName)
+    //         for (let j = 0; j < lists[i].Shows.length; j++) {
+    //             console.log(lists[i].Shows[j])
+    //         }
+    //         console.log("\n\n\n\n")
+    //     }
+    // }
+
+    // const shows = await MyShowListShow.findAll({
+    //     where
     // })
 
-    // const myShowList = await db.MyShowList.findAll({
-    //     where: { userId }
+    // const shows = await Show.findAll({
+    //     where: {
+    //         showId:Show.id
+    //     },
+    //     include: {
+    //         model: MyShowList
+    //     }
     // })
+
+    // const showlistshows = await MyShowListShow.findAll({
+    //     where: {
+
+    //     }
+    // })
+
     // console.log('am i in here')
     // res.render('my-show-list.pug');
+
+    res.render('my-show-list.pug', {
+        user,
+        wantToWatch,
+        currentlyWatching,
+        watched
+    })
+
 }))
 
 module.exports = router;
