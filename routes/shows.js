@@ -18,17 +18,26 @@ router.get('/', asyncHandler(async(req,res) => {
 
 router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
     const showId = parseInt(req.params.id, 10);
-    const show = await db.Show.findByPk(showId)
+    const show = await db.Show.findByPk(showId);
+
+    const userId = parseInt(req.params.id, 10);
+    const user = await db.User.findByPk(userId);
+
     const reviews = await Review.findAll({
         where: {
             showsId: showId
+        },
+        include: {
+            model: User
         }
-    })
+    });
+
     res.render('show-details.pug', {
         show,
         showId,
-        reviews
-    })
+        reviews,
+        user
+    });
 }))
 
 /*
