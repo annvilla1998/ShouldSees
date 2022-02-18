@@ -46,6 +46,10 @@ router.get('/', requireAuth, asyncHandler(async (req, res) => {
         }
     })
 
+
+    const { currWatch, watched, wantWatch, userId } = req.body;
+    // const { myShowListId } = req.body;
+
     const wantToWatch = lists[0].Shows;
 
     const currentlyWatching = lists[1].Shows;
@@ -81,7 +85,8 @@ router.get('/', requireAuth, asyncHandler(async (req, res) => {
     //     }
     // })
 
-    console.log("&&&&&&&&&&&&&&&&&&", lists[0].Shows)
+    // console.log('am i in here')
+    // res.render('my-show-list.pug');
 
     res.render('my-show-list.pug', {
         user,
