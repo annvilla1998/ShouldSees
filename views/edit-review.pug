@@ -1,0 +1,21 @@
+extends layout.pug 
+
+include utils.pug 
+
+block content 
+    body
+        .showImage
+            a(href=`/shows/${review.showsId}`)
+                img(src=show.image)
+        .show=show.name
+        fieldset
+            +validationErrorSummary(errors)
+            form(action=`/shows/${review.showsId}/review` method='post')
+                input(type='hidden' name='_csrf' value=csrfToken)
+                label(for='edit-rating') 
+                div(class='edit-form')
+                    +field('Rating', 'rating', review.rating)
+                div(class='edit-form')
+                    +field('Review', 'review', review.content)
+                div(class='submit-edit-button')
+                    button(type='submit' class='edit-post-button') Edit

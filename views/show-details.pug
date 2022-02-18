@@ -21,7 +21,7 @@ block content
                     ul
                         li= review.content
                 if locals.authenticated
-                    form(action='/:id(\\d+)/review/edit' method='post')
+                    a(href=`review/${review.id}/edit`)
                         button(class='edit-review-button') Edit Review
-                    form(action='/:id(\\d+)/review/delete' method='post')
-                        button(class='edit-review-button') Delete Review
+                    //- form(action='/:id(\\d+)/review/delete' method='post')
+                    //-     button(class='edit-review-button') Delete Review
