@@ -23,8 +23,6 @@ router.get('/', asyncHandler(async (req, res) => {
         myShows
     })
 
-
-
     const { currWatch, watched, wantWatch, userId } = req.body;
     // const { myShowListId } = req.body;
 
@@ -39,8 +37,6 @@ router.get('/', asyncHandler(async (req, res) => {
     // })
     // console.log('am i in here')
     // res.render('my-show-list.pug');
-
-
 }))
 
 module.exports = router;

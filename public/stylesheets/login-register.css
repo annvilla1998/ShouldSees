@@ -140,13 +140,13 @@ fieldset {
   text-decoration: none;
 }
 
-.demo-button {
+/* .demo-button {
+} */
+
+.demo-button{
   display: flex;
   justify-content: center;
   margin-top: 40px;
-}
-
-.demo-button > button {
   font-size: 16px;
   padding: 12px 24px;
   border-radius: 3px;
