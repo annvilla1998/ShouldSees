@@ -32,12 +32,6 @@ router.get('/:id(\\d+)', asyncHandler(async(req,res) => {
         }
     });
 
-    // const userreview = await User.findByPk(reviews.userId);
-
-    // console.log("UUUUUUUUUUUUUUUUU:", userreview);
-    console.log("RRRRRRREEEEEEEEEviews:", reviews);
-    console.log("REVIEWS.USERID:", reviews.userId)
-
     res.render('show-details.pug', {
         show,
         showId,
