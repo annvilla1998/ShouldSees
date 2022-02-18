@@ -3,6 +3,7 @@ extends layout.pug
 include utils.pug 
 
 block content 
+    script(src="/javascripts/edit-review.js" type="module")
     body
         .showImage
             a(href=`/shows/${review.showsId}`)
@@ -13,9 +14,9 @@ block content
             form(action=`/shows/${review.showsId}/review` method='post')
                 input(type='hidden' name='_csrf' value=csrfToken)
                 label(for='edit-rating') 
-                div(class='edit-form')
+                div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
-                div(class='edit-form')
+                div(class='review-edit-form')
                     +field('Review', 'review', review.content)
                 div(class='submit-edit-button')
-                    button(type='submit' class='edit-post-button') Edit
+                    button(id= review.id type='submit' class='edit-post-button') Edit
