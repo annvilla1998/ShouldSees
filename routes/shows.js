@@ -99,22 +99,22 @@ router.get('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(as
 
 router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
     const reviewId = parseInt(req.params.id, 10);
-    const reviewToUpdate = await db.Show.findByPk(reviewId)
+    let reviewToUpdate = await db.Show.findByPk(reviewId)
     const { userId } = req.session.auth
 
     const { rating } = req.body;
 
-    const review = { content:req.body.review, rating};
+    reviewToUpdate = { content:req.body.review, rating};
 
-    if (userId !== review.userId) {
+    if (userId !== reviewToUpdate.userId) {
         const err = new Error("Unauthorized");
         err.status = 401;
         err.message = "You are not authorized to edit this review.";
         err.title = "Unauthorized";
         throw err;
       }
-    await reviewToUpdate.update(review);
-    res.redirect(`/shows/${review.showsId}`);
+    await reviewToUpdate.save();
+    res.redirect(`/shows/${reviewToUpdate.showsId}`);
 }))
 
 module.exports = router;
