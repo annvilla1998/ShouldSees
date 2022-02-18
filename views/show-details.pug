@@ -16,9 +16,16 @@ block content
         .reviewsList 
             ul 
             each review in reviews
-                li= review.userId
+                li= user.username
                 li= review.rating
                     ul 
-                        li= review.content  
+                        li= review.content
+                if locals.authenticated 
+                    form(action='/:id(\\d+)/review/edit' method='post')
+                        button(class='edit-review-button') Edit Review
+                    form(action='/:id(\\d+)/review/delete' method='post')
+                        button(class='edit-review-button') Delete Review
+            
+
             
 
