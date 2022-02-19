@@ -2,6 +2,7 @@ extends layout.pug
 
 block content
     script(src="/javascripts/index.js" type="module")
+    script(src="/javascripts/delete.js" type="module")
     body
         .showImage
             a(href=show.image)
@@ -31,5 +32,5 @@ block content
                 if locals.authenticated
                     a(href=`review/${review.id}/edit`)
                         button(class='edit-review-button') Edit Review
-                    //- form(action='/:id(\\d+)/review/delete' method='post')
-                    //-     button(class='edit-review-button') Delete Review
+                button(class=`delete-review-button' id='delete-button.${id}`) Delete Review
+                    //- form(action='/review/delete' method='post')

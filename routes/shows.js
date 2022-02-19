@@ -202,7 +202,10 @@ router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(as
 
     const { rating } = req.body;
 
-    reviewToUpdate = { content:req.body.review, rating};
+    // reviewToUpdate = { content:req.body.review, rating};
+    const newReview = await db.Review.build(
+        { content:req.body.review, rating}
+    )
 
     if (userId !== reviewToUpdate.userId) {
         const err = new Error("Unauthorized");
@@ -211,7 +214,7 @@ router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(as
         err.title = "Unauthorized";
         throw err;
       }
-    await reviewToUpdate.save();
+    await reviewToUpdate.update(newReview);
     res.redirect(`/shows/${reviewToUpdate.showsId}`);
 }))
 
