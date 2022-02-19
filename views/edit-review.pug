@@ -1,9 +1,9 @@
-extends layout.pug 
+extends layout.pug
 
-include utils.pug 
+include utils.pug
 
-block content 
-    script(src="/javascripts/edit-review.js" type="module")
+block content
+    //- script(src="/javascripts/edit-review.js" type="module")
     body
         .showImage
             a(href=`/shows/${review.showsId}`)
@@ -11,7 +11,9 @@ block content
         .show=show.name
         fieldset
             +validationErrorSummary(errors)
-            form(class="edit-review")
+            form(action=`/shows/review/${review.id}/edit` class="edit-review" method='POST')
+                input(type='hidden' name='_csrf' value=csrfToken)
+                h1= review.rating
                 div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
                 div(class='review-edit-form')
