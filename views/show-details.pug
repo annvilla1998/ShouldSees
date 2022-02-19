@@ -12,12 +12,13 @@ block content
         .showGenre= show.genre
         .showCriticRating= show.criticRating
         .watch-status
-            form(action=`/shows/${show.id}` method="POST")
-                select(class="watch-status-select" id="watch-status-select")
+            form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
+                input(type="hidden" value=show.id name="show-id-input")
+                select(class="watch-status-select" id="watch-status-select" name="watch-status-select")
                     option(value="none" id="none")= "--Select--"
                     each list in lists
-                        option(value=list.id id=show.id)= list.listName
-                //- button(type="submit" value="Submit").watch-status-button Submit
+                        option(value=list.id)= list.listName
+                button(type="submit" value="Submit" id="submit").watch-status-button Submit
         a(href=`/shows/${show.id}/review`)
             button(class="write-review-button") Write Review
         .reviewsList

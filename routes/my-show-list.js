@@ -24,7 +24,7 @@ router.get(
 
     // const showLists = await MyShowList.findAll({
     //     where: {
-    //         userId: 1
+    //         userId: userId
     //     },
     //     include: {
     //         model: Show
@@ -42,13 +42,12 @@ router.get(
 
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
+        userId: userId,
       },
       include: {
         model: Show,
       },
     });
-
 
     // const { currWatch, watched, wantWatch, userId } = req.body;
     // const { myShowListId } = req.body;
@@ -88,7 +87,6 @@ router.get(
     //     }
     // })
 
-
     res.render("my-show-list.pug", {
       user,
       wantToWatch,
@@ -97,6 +95,5 @@ router.get(
     });
   })
 );
-
 
 module.exports = router;

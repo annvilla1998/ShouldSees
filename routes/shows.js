@@ -24,7 +24,7 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-    const userId = parseInt(req.params.id, 10);
+    const userId = req.session.auth.userId;
     const user = await db.User.findByPk(userId);
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -32,19 +32,16 @@ router.get(
     //await MyShows dropdown menu thing
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
-      },
-      include: {
-        model: Show,
+        userId: userId,
       },
     });
 
-    const wantToWatch = lists[0].Shows;
+    // console.log(lists);
+    console.log("=================================", lists[2].id);
 
-    const currentlyWatching = lists[1].Shows;
-
-    const watched = lists[2].Shows;
-
+    const wantToWatchId = lists[0].id;
+    const currentlyWatchingId = lists[1].id;
+    const watchedId = lists[2].id;
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     const reviews = await Review.findAll({
@@ -61,10 +58,10 @@ router.get(
       showId,
       reviews,
       user,
-      wantToWatch,
-      currentlyWatching,
-      watched,
       lists,
+      wantToWatchId,
+      currentlyWatchingId,
+      watchedId,
     });
   })
 );
@@ -82,30 +79,47 @@ router.post(
 
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
+        userId: userId,
       },
       include: {
         model: Show,
       },
     });
 
+    const lists = await MyShowList.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+
+    // console.log(lists);
+    console.log("=================================", lists[2].id);
+
+    const wantToWatchId = lists[0].id;
+    const currentlyWatchingId = lists[1].id;
+    const watchedId = lists[2].id;
+
+    //search join table to see where this connection exists, if it does delete and create association, if not just create
+
+    //where showId = showId listId=listId
     const joinTable = await MyShowListShow.findAll({
       where: {
         showsId: showId,
       },
     });
 
-    if (!joinTable.length) {
-      //no relationship
-    }
+    const { myShowListId, showsId } = req.body;
 
-    if (joinTable.length) {
-      //switch the list
-    }
+    const myShowListShow = await db.Review.build({
+      myShowListId: myShowListId,
+      showsId: showsId,
+    });
+
+    await review.save();
 
     // console.log("******************************************", joinTable);
 
-    res.json({ message: "Seccess" });
+    res.json({ message: "Success" });
 
     /*************************************************
     const wantToWatch = lists[0].Shows;
@@ -159,7 +173,7 @@ router.put(
 
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
+        userId: userId,
       },
       include: {
         model: Show,
@@ -172,13 +186,11 @@ router.put(
       },
     });
 
-    if (!joinTable.length) {
-      //no relationship
-    }
+    const { myShowListId, showsId } = req.body;
 
-    if (joinTable.length) {
-      //switch the list
-    }
+    joinTable.myShowListId = 1;
+
+    await review.save();
 
     res.json({ message: "Success" });
   })
