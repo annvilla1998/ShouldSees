@@ -6,7 +6,7 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const { requireAuth } = require("../auth.js");
 
-const { Show, MyShowList, Review, User } = db;
+const { Show, MyShowList, Review, User, MyShowListShow } = db;
 
 router.get(
   "/",
@@ -24,7 +24,7 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-    const userId = parseInt(req.params.id, 10);
+    const userId = req.session.auth.userId;
     const user = await db.User.findByPk(userId);
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -32,19 +32,16 @@ router.get(
     //await MyShows dropdown menu thing
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
-      },
-      include: {
-        model: Show,
+        userId: userId,
       },
     });
 
-    const wantToWatch = lists[0].Shows;
+    // console.log(lists);
+    console.log("=================================", lists[2].id);
 
-    const currentlyWatching = lists[1].Shows;
-
-    const watched = lists[2].Shows;
-
+    const wantToWatchId = lists[0].id;
+    const currentlyWatchingId = lists[1].id;
+    const watchedId = lists[2].id;
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     const reviews = await Review.findAll({
@@ -61,13 +58,15 @@ router.get(
       showId,
       reviews,
       user,
-      wantToWatch,
-      currentlyWatching,
-      watched,
+      lists,
+      wantToWatchId,
+      currentlyWatchingId,
+      watchedId,
     });
   })
 );
 
+//if there's no relationship (showId not in join table) (show not in lists)
 router.post(
   "/:id(\\d+)",
   requireAuth,
@@ -80,21 +79,56 @@ router.post(
 
     const lists = await MyShowList.findAll({
       where: {
-        userId: 1,
+        userId: userId,
       },
       include: {
         model: Show,
       },
     });
 
+    const lists = await MyShowList.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+
+    // console.log(lists);
+    console.log("=================================", lists[2].id);
+
+    const wantToWatchId = lists[0].id;
+    const currentlyWatchingId = lists[1].id;
+    const watchedId = lists[2].id;
+
+    //search join table to see where this connection exists, if it does delete and create association, if not just create
+
+    //where showId = showId listId=listId
+    const joinTable = await MyShowListShow.findAll({
+      where: {
+        showsId: showId,
+      },
+    });
+
+    const { myShowListId, showsId } = req.body;
+
+    const myShowListShow = await db.Review.build({
+      myShowListId: myShowListId,
+      showsId: showsId,
+    });
+
+    await review.save();
+
+    // console.log("******************************************", joinTable);
+
+    res.json({ message: "Success" });
+
+    /*************************************************
     const wantToWatch = lists[0].Shows;
 
     const currentlyWatching = lists[1].Shows;
 
     const watched = lists[2].Shows;
-
     const search = (lists, showId) => {
-      for (let i = 0; i < list.length; i++) {
+      for (let i = 0; i < lists.length; i++) {
         if (lists[i].id === showId) {
           return i;
         }
@@ -122,6 +156,43 @@ router.post(
     }
 
     //if they press select, don't do anything
+    ********************************************************/
+  })
+);
+
+//if there is relationship in join table (show is in list)
+router.put(
+  "/:id(\\d+)",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const showId = parseInt(req.params.id, 10);
+    const show = await db.Show.findByPk(showId);
+
+    const userId = parseInt(req.params.id, 10);
+    const user = await db.User.findByPk(userId);
+
+    const lists = await MyShowList.findAll({
+      where: {
+        userId: userId,
+      },
+      include: {
+        model: Show,
+      },
+    });
+
+    const joinTable = await MyShowListShow.findAll({
+      where: {
+        showsId: showId,
+      },
+    });
+
+    const { myShowListId, showsId } = req.body;
+
+    joinTable.myShowListId = 1;
+
+    await review.save();
+
+    res.json({ message: "Success" });
   })
 );
 
@@ -164,56 +235,63 @@ router.post(
   })
 );
 
-
-router.get('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
+router.get(
+  "/review/:id(\\d+)/edit",
+  csrfProtection,
+  requireAuth,
+  asyncHandler(async (req, res) => {
     const reviewId = parseInt(req.params.id, 10);
-    const { userId } = req.session.auth
-    const review = await db.Review.findByPk(reviewId,{
-        include: {
-            model: User
-        }
-    })
+    const { userId } = req.session.auth;
+    const review = await db.Review.findByPk(reviewId, {
+      include: {
+        model: User,
+      },
+    });
     const show = await db.Show.findOne({
-        where:{
-            id: review.showsId
-        }
-    })
+      where: {
+        id: review.showsId,
+      },
+    });
 
     if (userId !== review.userId) {
-        const err = new Error("Unauthorized");
-        err.status = 401;
-        err.message = "You are not authorized to edit this review.";
-        err.title = "Unauthorized";
-        throw err;
-      }
-    res.render('edit-review.pug',{
-        review,
-        reviewId,
-        show,
-        csrfToken: req.csrfToken()
-    })
-}))
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      err.message = "You are not authorized to edit this review.";
+      err.title = "Unauthorized";
+      throw err;
+    }
+    res.render("edit-review.pug", {
+      review,
+      reviewId,
+      show,
+      csrfToken: req.csrfToken(),
+    });
+  })
+);
 
-
-router.put('/review/:id(\\d+)/edit', csrfProtection, requireAuth,asyncHandler(async (req,res) =>{
+router.put(
+  "/review/:id(\\d+)/edit",
+  csrfProtection,
+  requireAuth,
+  asyncHandler(async (req, res) => {
     const reviewId = parseInt(req.params.id, 10);
-    let reviewToUpdate = await db.Show.findByPk(reviewId)
-    const { userId } = req.session.auth
+    let reviewToUpdate = await db.Show.findByPk(reviewId);
+    const { userId } = req.session.auth;
 
     const { rating } = req.body;
 
-    reviewToUpdate = { content:req.body.review, rating};
+    reviewToUpdate = { content: req.body.review, rating };
 
     if (userId !== reviewToUpdate.userId) {
-        const err = new Error("Unauthorized");
-        err.status = 401;
-        err.message = "You are not authorized to edit this review.";
-        err.title = "Unauthorized";
-        throw err;
-      }
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      err.message = "You are not authorized to edit this review.";
+      err.title = "Unauthorized";
+      throw err;
+    }
     await reviewToUpdate.save();
     res.redirect(`/shows/${reviewToUpdate.showsId}`);
-}))
-
+  })
+);
 
 module.exports = router;
