@@ -1,7 +1,7 @@
 extends layout.pug
 
 block content
-    //- script(src="/javascripts/index.js" type="module")
+    script(src="/javascripts/index.js" type="module")
     script(src="/javascripts/edit-review.js" type="module")
     script(src="/javascripts/delete-review.js" type="module")
     body
@@ -13,6 +13,13 @@ block content
         .showCast= show.cast
         .showGenre= show.genre
         .showCriticRating= show.criticRating
+        if currentList1
+            .watch-list-display= currentList1.MyShowList.listName
+        if currentList2
+            .watch-list-display= currentList2.MyShowList.listName
+        if currentList3
+            .watch-list-display= currentList3.MyShowList.listName
+
         .watch-status
             form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
                 input(type="hidden" value=show.id name="show-id-input")

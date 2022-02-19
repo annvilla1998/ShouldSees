@@ -32,7 +32,7 @@ router.get(
     //await MyShows dropdown menu thing
     const lists = await MyShowList.findAll({
       where: {
-        userId: userId,
+        userId,
       },
     });
 
@@ -42,6 +42,33 @@ router.get(
     const wantToWatchId = lists[0].id;
     const currentlyWatchingId = lists[1].id;
     const watchedId = lists[2].id;
+    const currentList1 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: wantToWatchId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+    const currentList2 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: currentlyWatchingId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+    const currentList3 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: watchedId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     const reviews = await Review.findAll({
@@ -62,6 +89,9 @@ router.get(
       wantToWatchId,
       currentlyWatchingId,
       watchedId,
+      currentList1,
+      currentList2,
+      currentList3,
     });
   })
 );
@@ -92,7 +122,11 @@ router.post(
     const wantToWatchId = lists[0].id;
     const currentlyWatchingId = lists[1].id;
     const watchedId = lists[2].id;
-
+    const { updatedShowListId } = req.body;
+    console.log(
+      "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
+      updatedShowListId
+    );
     // search join table to see where this connection exists, if it
     // does delete and create association, if not just create
 
@@ -123,92 +157,125 @@ router.post(
     // this shows that this show has a relationship withs ome table
     // have to find if the myShowListId matches the one of user
 
-    //joinWantToWatch
-    if (!joinWantToWatch.length) {
-      const newJoinWantToWatch = await db.MyShowListShow.build({
-        myShowListId: wantToWatchId,
-        showsId: showId,
-      });
-      await newJoinWantToWatch.save();
-
-      console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
-
-      res.json({ message: "Success" });
+    if (joinWantToWatch) {
+      joinWantToWatch.destroy();
     }
 
-    if (joinWantToWatch.length) {
-      joinWantToWatch.destroy({
-        where: {
-          myShowListId: wantToWatchId,
-          showsId: showId,
-        },
-      });
-
-      const newJoinWantToWatch = await db.MyShowListShow.build({
-        myShowListId: wantToWatchId,
-        showsId: showId,
-      });
-      await newJoinWantToWatch.save();
-
-      console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
-
-      res.json({ message: "Success" });
-    }
-    //joinCurrentlyWatching
-    if (!joinCurrentlyWatching.length) {
-      const newJoinCurrentlyWatching = await db.MyShowListShow.build({
-        myShowListId: currentlyWatchingId,
-        showsId: showId,
-      });
-      await newJoinCurrentlyWatching.save();
-
-      console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
-      res.json({ message: "Success" });
+    if (joinCurrentlyWatching) {
+      joinCurrentlyWatching.destroy();
     }
 
-    if (joinCurrentlyWatching.length) {
-      joinCurrentlyWatching.destroy({
-        where: {
-          myShowListId: currentlyWatchingId,
-          showsId: showId,
-        },
-      });
-
-      const newJoinCurrentlyWatching = await db.MyShowListShow.build({
-        myShowListId: currentlyWatchingId,
-        showsId: showId,
-      });
-      await newJoinCurrentlyWatching.save();
-      console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
-      res.json({ message: "Success" });
-    }
-    //joinWatched
-    if (!joinWatched.length) {
-      const newJoinWatched = await db.MyShowListShow.build({
-        myShowListId: watchedId,
-        showsId: showId,
-      });
-      await newJoinWatched.save();
-      console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
-      res.json({ message: "Success" });
+    if (joinWatched) {
+      joinWatched.destroy();
     }
 
-    if (joinWatched.length) {
-      joinWatched.destroy({
-        where: {
-          myShowListId: watchedId,
-          showsId: showId,
-        },
-      });
+    const newListConnection = await db.MyShowListShow.build({
+      myShowListId: updatedShowListId,
+      showsId: showId,
+    });
 
-      const newJoinWatched = await db.MyShowListShow.build({
-        myShowListId: watchedId,
+    await newListConnection.save();
+
+    const finalListConnection = await db.MyShowListShow.findOne({
+      where: {
+        myShowListId: updatedShowListId,
         showsId: showId,
-      });
-      await newJoinWatched.save();
-      console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
-      res.json({ message: "Success" });
-    }
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+
+    // console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newListConnection);
+
+    res.json({ message: "Success", newListEntry: finalListConnection });
+
+    // //joinWantToWatch
+    // if (!joinWantToWatch.length) {
+    //   const newJoinWantToWatch = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWantToWatch.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
+
+    //   res.json({ message: "Success", newListEntry: newJoinWantToWatch });
+    // }
+
+    // if (joinWantToWatch.length) {
+    //   joinWantToWatch.destroy({
+    //     where: {
+    //       myShowListId: wantToWatchId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinWantToWatch = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWantToWatch.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
+
+    //   res.json({ message: "Success", newListEntry: newJoinWantToWatch });
+    // }
+    // //joinCurrentlyWatching
+    // if (!joinCurrentlyWatching.length) {
+    //   const newJoinCurrentlyWatching = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinCurrentlyWatching.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
+    //   res.json({ message: "Success", newListEntry: newJoinCurrentlyWatching });
+    // }
+
+    // if (joinCurrentlyWatching.length) {
+    //   joinCurrentlyWatching.destroy({
+    //     where: {
+    //       myShowListId: currentlyWatchingId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinCurrentlyWatching = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinCurrentlyWatching.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
+    //   res.json({ message: "Success", newListEntry: newJoinCurrentlyWatching });
+    // }
+    // //joinWatched
+    // if (!joinWatched.length) {
+    //   const newJoinWatched = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWatched.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
+    //   res.json({ message: "Success", newListEntry: newJoinWatched });
+    // }
+
+    // if (joinWatched.length) {
+    //   joinWatched.destroy({
+    //     where: {
+    //       myShowListId: watchedId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinWatched = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWatched.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
+    //   res.json({ message: "Success", newListEntry: newJoinWatched });
+    // }
   })
 );
 
