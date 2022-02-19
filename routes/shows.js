@@ -24,75 +24,98 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-    const userId = req.session.auth.userId;
-    const user = await db.User.findByPk(userId);
+    //if not logged in
+    if (req.session.auth === undefined) {
+      const reviews = await Review.findAll({
+        where: {
+          showsId: showId,
+        },
+        include: {
+          model: User,
+        },
+      });
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+      res.render("show-details.pug", {
+        show,
+        showId,
+        reviews,
+      });
 
-    //await MyShows dropdown menu thing
-    const lists = await MyShowList.findAll({
-      where: {
-        userId,
-      },
-    });
+      return;
+    }
 
-    // console.log(lists);
-    // console.log("=================================", lists[2].id);
+    //if logged in
+    if (req.session.auth.userId) {
+      const userId = req.session.auth.userId;
+      const user = await db.User.findByPk(userId);
 
-    const wantToWatchId = lists[0].id;
-    const currentlyWatchingId = lists[1].id;
-    const watchedId = lists[2].id;
-    const currentList1 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: wantToWatchId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    const currentList2 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: currentlyWatchingId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    const currentList3 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: watchedId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+      /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    const reviews = await Review.findAll({
-      where: {
-        showsId: showId,
-      },
-      include: {
-        model: User,
-      },
-    });
+      //await MyShows dropdown menu thing
+      const lists = await MyShowList.findAll({
+        where: {
+          userId,
+        },
+      });
 
-    res.render("show-details.pug", {
-      show,
-      showId,
-      reviews,
-      user,
-      lists,
-      wantToWatchId,
-      currentlyWatchingId,
-      watchedId,
-      currentList1,
-      currentList2,
-      currentList3,
-    });
+      // console.log(lists);
+      // console.log("=================================", lists[2].id);
+
+      const wantToWatchId = lists[0].id;
+      const currentlyWatchingId = lists[1].id;
+      const watchedId = lists[2].id;
+      const currentList1 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: wantToWatchId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      const currentList2 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: currentlyWatchingId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      const currentList3 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: watchedId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+      const reviews = await Review.findAll({
+        where: {
+          showsId: showId,
+        },
+        include: {
+          model: User,
+        },
+      });
+
+      res.render("show-details.pug", {
+        show,
+        showId,
+        reviews,
+        user,
+        lists,
+        wantToWatchId,
+        currentlyWatchingId,
+        watchedId,
+        currentList1,
+        currentList2,
+        currentList3,
+      });
+    }
   })
 );
 
@@ -499,12 +522,37 @@ router.post(
   })
 );
 
+const reviewNotFoundError = (id) => {
+  const err = Error("Review not found");
+  err.errors = [`Review with id of ${id} could not be found.`];
+  err.title = "Review not found.";
+  err.status = 404;
+  return err;
+};
+
 router.delete("/review/:id(\\d+)/delete", async (req, res) => {
   const reviewId = req.params.id;
   const review = await Review.findByPk(reviewId);
-  await review.destroy();
 
-  res.json({ message: "Success" });
+  console.log(req.session.auth.userId);
+
+  if (req.session.auth.userId === review.userId) {
+    await review.destroy();
+    // res.json({ message: `Deleted review with id of ${req.params.id}.` });
+    res.json({ message: "Success" });
+  }
+
+  if (req.session.auth.userId !== review.userId) {
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    err.message = "You are not authorized to delete this review.";
+    err.title = "Unauthorized";
+    throw err;
+  }
+
+  if (!review) {
+    next(reviewNotFoundError(req.params.id));
+  }
 });
 
 module.exports = router;
