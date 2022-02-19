@@ -11,9 +11,7 @@ block content
         .show=show.name
         fieldset
             +validationErrorSummary(errors)
-            form(action=`/shows/${review.showsId}/review` method='post')
-                input(type='hidden' name='_csrf' value=csrfToken)
-                label(for='edit-rating') 
+            form(class="edit-review")
                 div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
                 div(class='review-edit-form')
