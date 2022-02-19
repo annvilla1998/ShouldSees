@@ -24,7 +24,6 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-
     const userId = req.session.auth.userId;
     const user = await db.User.findByPk(userId);
 
@@ -33,16 +32,43 @@ router.get(
     //await MyShows dropdown menu thing
     const lists = await MyShowList.findAll({
       where: {
-        userId: userId,
+        userId,
       },
     });
 
     // console.log(lists);
-    console.log("=================================", lists[2].id);
+    // console.log("=================================", lists[2].id);
 
     const wantToWatchId = lists[0].id;
     const currentlyWatchingId = lists[1].id;
     const watchedId = lists[2].id;
+    const currentList1 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: wantToWatchId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+    const currentList2 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: currentlyWatchingId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+    const currentList3 = await MyShowListShow.findOne({
+      where: {
+        myShowListId: watchedId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     const reviews = await Review.findAll({
@@ -63,10 +89,197 @@ router.get(
       wantToWatchId,
       currentlyWatchingId,
       watchedId,
+      currentList1,
+      currentList2,
+      currentList3,
     });
   })
 );
 
+//if there is relationship in join table (show is in list)
+router.post(
+  "/:id(\\d+)",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const showId = parseInt(req.params.id, 10);
+    const show = await db.Show.findByPk(showId);
+
+    const userId = req.session.auth.userId;
+    const user = await db.User.findByPk(userId);
+
+    const lists = await MyShowList.findAll({
+      where: {
+        userId: userId,
+      },
+      include: {
+        model: Show,
+      },
+    });
+
+    // console.log(lists);
+    // console.log("=================================", lists[2].id);
+
+    const wantToWatchId = lists[0].id;
+    const currentlyWatchingId = lists[1].id;
+    const watchedId = lists[2].id;
+    const { updatedShowListId } = req.body;
+    console.log(
+      "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
+      updatedShowListId
+    );
+    // search join table to see where this connection exists, if it
+    // does delete and create association, if not just create
+
+    //where showId = showId listId=listId
+    const joinWantToWatch = await MyShowListShow.findOne({
+      where: {
+        myShowListId: wantToWatchId,
+        showsId: showId,
+      },
+    });
+    const joinCurrentlyWatching = await MyShowListShow.findOne({
+      where: {
+        myShowListId: currentlyWatchingId,
+        showsId: showId,
+      },
+    });
+    const joinWatched = await MyShowListShow.findOne({
+      where: {
+        myShowListId: watchedId,
+        showsId: showId,
+      },
+    });
+
+    // console.log("&&&&&&&&&&&&&&&&&&&showlistId:", joinTable[0].myShowListId);
+    // console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", joinWantToWatch);
+    // console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", joinCurrentlyWatching);
+    // console.log("&&&&&&&&&&&&&&&&&&&WATCHED", joinWatched);
+    // this shows that this show has a relationship withs ome table
+    // have to find if the myShowListId matches the one of user
+
+    if (joinWantToWatch) {
+      joinWantToWatch.destroy();
+    }
+
+    if (joinCurrentlyWatching) {
+      joinCurrentlyWatching.destroy();
+    }
+
+    if (joinWatched) {
+      joinWatched.destroy();
+    }
+
+    const newListConnection = await db.MyShowListShow.build({
+      myShowListId: updatedShowListId,
+      showsId: showId,
+    });
+
+    await newListConnection.save();
+
+    const finalListConnection = await db.MyShowListShow.findOne({
+      where: {
+        myShowListId: updatedShowListId,
+        showsId: showId,
+      },
+      include: {
+        model: MyShowList,
+      },
+    });
+
+    // console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newListConnection);
+
+    res.json({ message: "Success", newListEntry: finalListConnection });
+
+    // //joinWantToWatch
+    // if (!joinWantToWatch.length) {
+    //   const newJoinWantToWatch = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWantToWatch.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
+
+    //   res.json({ message: "Success", newListEntry: newJoinWantToWatch });
+    // }
+
+    // if (joinWantToWatch.length) {
+    //   joinWantToWatch.destroy({
+    //     where: {
+    //       myShowListId: wantToWatchId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinWantToWatch = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWantToWatch.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&WANT TO WATCH", newJoinWantToWatch);
+
+    //   res.json({ message: "Success", newListEntry: newJoinWantToWatch });
+    // }
+    // //joinCurrentlyWatching
+    // if (!joinCurrentlyWatching.length) {
+    //   const newJoinCurrentlyWatching = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinCurrentlyWatching.save();
+
+    //   console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
+    //   res.json({ message: "Success", newListEntry: newJoinCurrentlyWatching });
+    // }
+
+    // if (joinCurrentlyWatching.length) {
+    //   joinCurrentlyWatching.destroy({
+    //     where: {
+    //       myShowListId: currentlyWatchingId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinCurrentlyWatching = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinCurrentlyWatching.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&CURRENTLY", newJoinCurrentlyWatching);
+    //   res.json({ message: "Success", newListEntry: newJoinCurrentlyWatching });
+    // }
+    // //joinWatched
+    // if (!joinWatched.length) {
+    //   const newJoinWatched = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWatched.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
+    //   res.json({ message: "Success", newListEntry: newJoinWatched });
+    // }
+
+    // if (joinWatched.length) {
+    //   joinWatched.destroy({
+    //     where: {
+    //       myShowListId: watchedId,
+    //       showsId: showId,
+    //     },
+    //   });
+
+    //   const newJoinWatched = await db.MyShowListShow.build({
+    //     myShowListId: updatedShowListId,
+    //     showsId: showId,
+    //   });
+    //   await newJoinWatched.save();
+    //   console.log("&&&&&&&&&&&&&&&&&&&WATCHED", newJoinWatched);
+    //   res.json({ message: "Success", newListEntry: newJoinWatched });
+    // }
+  })
+);
+
+/*
 //if there's no relationship (showId not in join table) (show not in lists)
 router.post(
   "/:id(\\d+)",
@@ -75,7 +288,7 @@ router.post(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-    const userId = parseInt(req.params.id, 10);
+    const userId = req.session.auth.userId;
     const user = await db.User.findByPk(userId);
 
     const lists = await MyShowList.findAll({
@@ -122,7 +335,7 @@ router.post(
 
     res.json({ message: "Success" });
 
-    /*************************************************
+    //*************************************************
     const wantToWatch = lists[0].Shows;
 
     const currentlyWatching = lists[1].Shows;
@@ -157,45 +370,9 @@ router.post(
     }
 
     //if they press select, don't do anything
-    ********************************************************/
   })
 );
-
-//if there is relationship in join table (show is in list)
-router.put(
-  "/:id(\\d+)",
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const showId = parseInt(req.params.id, 10);
-    const show = await db.Show.findByPk(showId);
-
-    const userId = parseInt(req.params.id, 10);
-    const user = await db.User.findByPk(userId);
-
-    const lists = await MyShowList.findAll({
-      where: {
-        userId: userId,
-      },
-      include: {
-        model: Show,
-      },
-    });
-
-    const joinTable = await MyShowListShow.findAll({
-      where: {
-        showsId: showId,
-      },
-    });
-
-    const { myShowListId, showsId } = req.body;
-
-    joinTable.myShowListId = 1;
-
-    await review.save();
-
-    res.json({ message: "Success" });
-  })
-);
+*/
 
 router.get(
   "/:id(\\d+)/review",
@@ -272,14 +449,14 @@ router.get(
 
 // router.put('/review/:id(\\d+)/edit', requireAuth,asyncHandler(async (req,res) =>{
 //     const { userId } = req.session.auth
-    
+
 //     const { rating, content } = req.body;
-    
+
 //     let review = await db.Review.findByPk(req.params.id)
-    
+
 //     review.content = req.body.review;
 //     review.rating = rating
-    
+
 //     if (userId !== review.userId) {
 //         const err = new Error("Unauthorized");
 //         err.status = 401;
@@ -293,7 +470,6 @@ router.get(
 // }))
 
 router.post(
-
   "/review/:id(\\d+)/edit",
   csrfProtection,
   requireAuth,
@@ -318,19 +494,17 @@ router.post(
       throw err;
     }
     await reviewToUpdate.save();
-    res.json({message: 'Success'})
+    res.json({ message: "Success" });
     res.redirect(`/shows/${reviewToUpdate.showsId}`);
   })
 );
 
-
-router.delete('/review/:id(\\d+)/delete', async(req, res) => {
-  const reviewId = req.params.id
-  const review = await Review.findByPk(reviewId)
+router.delete("/review/:id(\\d+)/delete", async (req, res) => {
+  const reviewId = req.params.id;
+  const review = await Review.findByPk(reviewId);
   await review.destroy();
 
-  res.json({message: 'Success'})
-})
-
+  res.json({ message: "Success" });
+});
 
 module.exports = router;
