@@ -24,6 +24,7 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
+
     const userId = req.session.auth.userId;
     const user = await db.User.findByPk(userId);
 
@@ -269,13 +270,40 @@ router.get(
   })
 );
 
-router.put(
+// router.put('/review/:id(\\d+)/edit', requireAuth,asyncHandler(async (req,res) =>{
+//     const { userId } = req.session.auth
+    
+//     const { rating, content } = req.body;
+    
+//     let review = await db.Review.findByPk(req.params.id)
+    
+//     review.content = req.body.review;
+//     review.rating = rating
+    
+//     if (userId !== review.userId) {
+//         const err = new Error("Unauthorized");
+//         err.status = 401;
+//         err.message = "You are not authorized to edit this review.";
+//         err.title = "Unauthorized";
+//         throw err;
+//       }
+//     await review.save();
+//     res.json({data: review})
+//     res.redirect(`/shows/${review.showsId}`);
+// }))
+
+router.post(
+
   "/review/:id(\\d+)/edit",
   csrfProtection,
   requireAuth,
   asyncHandler(async (req, res) => {
     const reviewId = parseInt(req.params.id, 10);
-    let reviewToUpdate = await db.Show.findByPk(reviewId);
+
+    let reviewToUpdate = await db.Review.findByPk(reviewId);
+
+    //let reviewToUpdate = await db.Show.findByPk(reviewId);
+
     const { userId } = req.session.auth;
 
     const { rating } = req.body;
@@ -290,8 +318,19 @@ router.put(
       throw err;
     }
     await reviewToUpdate.save();
+    res.json({message: 'Success'})
     res.redirect(`/shows/${reviewToUpdate.showsId}`);
   })
 );
+
+
+router.delete('/review/:id(\\d+)/delete', async(req, res) => {
+  const reviewId = req.params.id
+  const review = await Review.findByPk(reviewId)
+  await review.destroy();
+
+  res.json({message: 'Success'})
+})
+
 
 module.exports = router;
