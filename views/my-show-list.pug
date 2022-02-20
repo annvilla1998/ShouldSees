@@ -6,11 +6,12 @@ append head
 
 block content
     body
-        .page-container
-            .show-container
+        .content-container
+            .container
                 h1 My Shows
+                hr
+                h2 Want To Watch
                 .want-to-watch
-                    h2 Want To Watch
                     each show in wantToWatch
                         .individual-list-container
                             .showImage
@@ -25,9 +26,9 @@ block content
                                     input(type="hidden" name="_csrf" value=csrfToken)
                                     input(type="hidden" name="listId" value=wantToWatchList.id)
                                     input(type="hidden" name="showId" value=show.id)
-                                    button(type="submit" class='delete-show-button') Delete From List
+                                    button(type="submit" class='delete-show-button') Remove
+                h2 Currently Watching
                 .current-watching
-                    h2 Currently Watching
                     each show in currentlyWatching
                         .individual-list-container
                             .showImage
@@ -42,9 +43,9 @@ block content
                                     input(type="hidden" name="_csrf" value=csrfToken)
                                     input(type="hidden" name="listId" value=currentlyWatchingList.id)
                                     input(type="hidden" name="showId" value=show.id)
-                                    button(type="submit" class='delete-show-button') Delete From List
+                                    button(type="submit" class='delete-show-button') Remove
+                h2 Watched
                 .watched
-                    h2 Watched
                     each show in watched
                         .individual-list-container
                             .showImage
@@ -59,4 +60,4 @@ block content
                                     input(type="hidden" name="_csrf" value=csrfToken)
                                     input(type="hidden" name="listId" value=watchedList.id)
                                     input(type="hidden" name="showId" value=show.id)
-                                    button(type="submit" class='delete-show-button') Delete From List
+                                    button(type="submit" class='delete-show-button') Remove

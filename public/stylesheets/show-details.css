@@ -22,12 +22,12 @@ body {
     display: grid;
     grid-auto-columns: 1fr;
     grid-auto-rows: 1fr;
-    grid-template-rows: 530px auto;
+    grid-template-rows: 550px auto;
     gap: 0px 0px;
 }
 
 .show-information-container {
-    margin-top: 30px;
+    margin-top: 50px;
     grid-area: 1 / 1 / 2 / 2;
     display: grid;
     grid-auto-columns: 1fr;
