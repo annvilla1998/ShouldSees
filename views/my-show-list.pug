@@ -1,5 +1,6 @@
 extends layout.pug
 
+
 append head
     link(rel='stylesheet' href='/stylesheets/my-show-list.css')
 
@@ -19,6 +20,12 @@ block content
                                 .showName= show.name
                                 .showGenre= show.genre
                                 .showCriticRating= show.criticRating
+                            .delete-from-list
+                                form(action=`/my-show-list/${wantToWatchList.id}/show/${show.id}/delete` method='POST')
+                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                    input(type="hidden" name="listId" value=wantToWatchList.id)
+                                    input(type="hidden" name="showId" value=show.id)
+                                    button(type="submit" class='delete-show-button') Delete From List
                 .current-watching
                     h2 Currently Watching
                     each show in currentlyWatching
@@ -30,6 +37,12 @@ block content
                                 .showName= show.name
                                 .showGenre= show.genre
                                 .showCriticRating= show.criticRating
+                            .delete-from-list
+                                form(action=`/my-show-list/${currentlyWatchingList.id}/show/${show.id}/delete` method='POST')
+                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                    input(type="hidden" name="listId" value=currentlyWatchingList.id)
+                                    input(type="hidden" name="showId" value=show.id)
+                                    button(type="submit" class='delete-show-button') Delete From List
                 .watched
                     h2 Watched
                     each show in watched
@@ -41,35 +54,9 @@ block content
                                 .showName= show.name
                                 .showGenre= show.genre
                                 .showCriticRating= show.criticRating
-
-    //-    h1 My Shows
-    //-         a(href='') Currently Watching
-    //-             table
-    //-                 thead
-    //-                     tr
-    //-                         th Image
-    //-                         th Title
-    //-                         th Release Date
-    //-                         th Critic Rating
-    //-                         th My Rating
-    //-                 tbody
-    //-         a(href='') Want to Watch
-    //-             table
-    //-                 thead
-    //-                     tr
-    //-                         th Image
-    //-                         th Title
-    //-                         th Release Date
-    //-                         th Critic Rating
-    //-                         th My Rating
-    //-                 tbody
-    //-         a(href='') Have Watched
-    //-             table
-    //-                 thead
-    //-                     tr
-    //-                         th Image
-    //-                         th Title
-    //-                         th Release Date
-    //-                         th Critic Rating
-    //-                         th My Rating
-    //-                 tbody
+                            .delete-from-list
+                                form(action=`/my-show-list/${watchedList.id}/show/${show.id}/delete` method='POST')
+                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                    input(type="hidden" name="listId" value=watchedList.id)
+                                    input(type="hidden" name="showId" value=show.id)
+                                    button(type="submit" class='delete-show-button') Delete From List

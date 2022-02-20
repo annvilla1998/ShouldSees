@@ -85,6 +85,7 @@
   font-family: "Lato", sans-serif;
   color: #333333;
   background-color: #f4f1ea;
+  cursor: pointer;
   line-height: 1;
   transition: all 0.2s ease-out;
 }
