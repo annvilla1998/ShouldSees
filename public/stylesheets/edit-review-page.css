@@ -1,8 +1,13 @@
 
-.edit-review-container {
+body {
     font-family: "Lato", sans-serif;
+    background-image: url("https://t3.ftcdn.net/jpg/02/03/96/84/240_F_203968482_1gxBR6ZfKcvyWSWL8SfgWtIpxcmuZNBR.jpg");
+    background-size: cover;
+}
+
+.edit-review-container {
     padding: 30px;
-    margin-top: 10px;
+    margin: 0px 200px;
     display: grid;  
     grid-template-areas: 
         "picture title"
@@ -11,7 +16,8 @@
         "picture form";
     justify-items: start;  
     justify-content: center;
-    align-items: center;  
+    align-items: center; 
+    background-color: #fbfbec; 
     }
 
 .showImage {
@@ -22,7 +28,9 @@
 .show {
     grid-area: title;
     font-size: 35px;
-    padding: 30px;
+    padding-top: 50px;
+    margin: 30px;
+    font-family: "Playfair Display", serif;
 }
 
 .edit-review {
@@ -36,6 +44,8 @@
 .myRating-p {
     font-size: 25px;
     margin: 10px;
+    color: #764f40;
+    font-family: "Montserrat", sans-serif;
 }
 
 .submit-edit-button {
@@ -57,17 +67,26 @@
 }
 
 
-/* .rating-edit-form {
-    padding: 10px
-} */
-
-
 .review-edit-form {
     padding-top: 10px;
 }
 
 label {
     padding: 10px;
+    font-family: "Montserrat", sans-serif;
 }
 
+input {
+    padding: 12px 20px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: "Lato", sans-serif;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
