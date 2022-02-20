@@ -2,9 +2,9 @@ extends layout.pug
 
 include utils.pug
 
-block content 
+block content
     link(rel="stylesheet" href="/stylesheets/review-page.css")
-    body 
+    body
         .review-container
             .showImage
                 a(href=`/shows/${showId}`)
@@ -13,10 +13,11 @@ block content
                 +validationErrorSummary(errors)
             form(action=`/shows/${showId}/review` method='post' class="review-form-tag")
                 input(type='hidden' name='_csrf' value=csrfToken)
-                label(for='rating') 
-                div(class='review-form')
+                label(for='rating')
+                div(class='review-form' id='review-rating')
                     +field('Rating', 'rating', rating)
+                    h1 /10
                 div(class='review-form')
                     +field('Review', 'review', content, "textarea")
                 div(class='submit-review-button')
-                    button(type='submit' class='post-button') Post       
+                    button(type='submit' class='post-button') Post

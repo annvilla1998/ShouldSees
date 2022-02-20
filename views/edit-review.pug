@@ -19,6 +19,7 @@ block content
                     p My Rating: #{review.rating}
                 div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
+                    h1 /10
                 div(class='review-edit-form')
                     +field('Review', 'review', review.content, "textarea")
                 div(class='submit-edit-button')
