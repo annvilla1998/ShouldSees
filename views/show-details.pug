@@ -2,35 +2,44 @@ extends layout.pug
 
 block content
     script(src="/javascripts/index.js" type="module")
-    script(src="/javascripts/delete.js" type="module")
+    script(src="/javascripts/edit-review.js" type="module")
+    script(src="/javascripts/delete-review.js" type="module")
     body
         .showImage
-            a(href=show.image)
+            a(href=`/shows/${show.id}`)
                 img(src=show.image)
         .showName= show.name
         .showDescription= show.description
         .showCast= show.cast
         .showGenre= show.genre
         .showCriticRating= show.criticRating
-        .watch-status
-            form(action=`/shows/${show.id}` method="POST")
-                select(class="watch-status-select" id="watch-status-select")
-                    option(value="") --Select--
-                    option(value="0") Want to Watch
-                    option(value="1") Currently Watching
-                    option(value="2") Watched
-                //- button(type="submit" value="Submit").watch-status-button Submit
+        if user
+            if currentList1
+                .watch-list-display= currentList1.MyShowList.listName
+            if currentList2
+                .watch-list-display= currentList2.MyShowList.listName
+            if currentList3
+                .watch-list-display= currentList3.MyShowList.listName
+            .watch-status
+                form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
+                    input(type="hidden" value=show.id name="show-id-input")
+                    select(class="watch-status-select" id="watch-status-select" name="watch-status-select")
+                        each list in lists
+                            option(value=list.id)= list.listName
+                    button(type="submit" value="Submit" id="submit").watch-status-button Submit
         a(href=`/shows/${show.id}/review`)
             button(class="write-review-button") Write Review
         .reviewsList
             ul
             each review in reviews
-                li= review.User.username
-                li= review.rating
-                    ul
-                        li= review.content
-                if locals.authenticated
-                    a(href=`review/${review.id}/edit`)
-                        button(class='edit-review-button') Edit Review
-                button(class=`delete-review-button' id='delete-button.${id}`) Delete Review
-                    //- form(action='/review/delete' method='post')
+                div(id=`review-container-${review.id}`)
+                    li= review.User.username
+                    li(id=`rating-${review.id}`)= review.rating
+                        ul
+                            li(id=`content-${reviewId}`)= review.content
+                    if locals.authenticated
+                        a(href=`/shows/review/${review.id}/edit`)
+                            button(class='edit-review-button') Edit Review
+                        form(action=`/shows/review/${review.id}/delete` method='post')
+                            input(type="hidden" name="_csrf" value=csrfToken)
+                            button(id=review.id class='delete-review-button') Delete Review
