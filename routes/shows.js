@@ -508,7 +508,7 @@ router.post(
     const reviewId = parseInt(req.params.id, 10);
     const review = await Review.findByPk(reviewId);
 
-    const showId = parseInt(req.params.id, 10);
+    // const showId = parseInt(req.params.id, 10);
 
     review.content = req.body.review;
     review.rating = req.body.rating;
@@ -575,29 +575,32 @@ router.post(
 //   })
 // );
 
-router.delete("/review/:id(\\d+)/delete", async (req, res) => {
-  const reviewId = req.params.id;
-  const review = await Review.findByPk(reviewId);
+router.delete(
+  "/review/:id(\\d+)/delete",
+  asyncHandler(async (req, res) => {
+    const reviewId = req.params.id;
+    const review = await Review.findByPk(reviewId);
 
-  console.log(req.session.auth.userId);
+    console.log(req.session.auth.userId);
 
-  if (req.session.auth.userId === review.userId) {
-    await review.destroy();
-    // res.json({ message: `Deleted review with id of ${req.params.id}.` });
-    res.json({ message: "Success" });
-  }
+    if (req.session.auth.userId === review.userId) {
+      await review.destroy();
+      // res.json({ message: `Deleted review with id of ${req.params.id}.` });
+      res.json({ message: "Success" });
+    }
 
-  if (req.session.auth.userId !== review.userId) {
-    const err = new Error("Unauthorized");
-    err.status = 401;
-    err.message = "You are not authorized to delete this review.";
-    err.title = "Unauthorized";
-    throw err;
-  }
+    if (req.session.auth.userId !== review.userId) {
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      err.message = "You are not authorized to delete this review.";
+      err.title = "Unauthorized";
+      throw err;
+    }
 
-  if (!review) {
-    next(reviewNotFoundError(req.params.id));
-  }
-});
+    if (!review) {
+      next(reviewNotFoundError(req.params.id));
+    }
+  })
+);
 
 module.exports = router;
