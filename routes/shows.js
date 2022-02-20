@@ -581,7 +581,8 @@ router.delete(
     const reviewId = req.params.id;
     const review = await Review.findByPk(reviewId);
 
-    console.log(req.session.auth.userId);
+    // console.log(req.session.auth.userId);
+    // console.log("ROUTER DELETE!!!!!!!!!!!");
 
     if (req.session.auth.userId === review.userId) {
       await review.destroy();

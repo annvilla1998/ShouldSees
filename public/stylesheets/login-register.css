@@ -3,6 +3,8 @@ html {
 }
 
 body {
+  background-image: url("../clouds.jpg");
+  background-size: cover;
   background-color: #fbfbec;
   display: block;
 }

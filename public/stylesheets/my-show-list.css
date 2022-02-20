@@ -5,8 +5,10 @@
 
 body {
   font-family: "Lato", sans-serif;
-  background-image: url("https://t3.ftcdn.net/jpg/02/03/96/84/240_F_203968482_1gxBR6ZfKcvyWSWL8SfgWtIpxcmuZNBR.jpg");
-  background-size: cover;
+  /* background-image: url("https://t3.ftcdn.net/jpg/02/03/96/84/240_F_203968482_1gxBR6ZfKcvyWSWL8SfgWtIpxcmuZNBR.jpg");
+  background-size: cover; */
+  background-image: url("../clouds.jpg");
+  /* background-size: cover; */
   font-family: "Lato", sans-serif;
 }
 
