@@ -3,14 +3,14 @@ body {
 }
 
 .welcomeText {
-    font-family: "Lato", sans-serif;
+    font-family: "Playfair Display", serif;
     text-align: center;
     margin: auto;
     padding-top: 30px;
 }
 
 .topRated > p {
-    font-family: "Lato", sans-serif;
+    font-family: "Playfair Display", serif;
     font-size: 25px;
 }
 
@@ -60,4 +60,3 @@ body {
     line-height: 1.5;
     box-sizing: border-box;
 }
-  

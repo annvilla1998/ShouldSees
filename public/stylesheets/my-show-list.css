@@ -23,7 +23,7 @@ body {
   display: grid;
   grid-auto-columns: 1fr;
   grid-auto-rows: 1fr;
-  grid-template-rows: 120px 7px 100px 450px 100px 450px 100px 450px 200px;
+  grid-template-rows: 120px 7px 100px 500px 100px 500px 100px 500px 200px;
   gap: 0px 0px;
 }
 
@@ -79,6 +79,7 @@ hr {
 
 .individual-list-container {
   padding-left: 20px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -141,4 +142,15 @@ hr {
 
 .delete-show-button:after {
   background-color: #FFFFFF;
+}
+
+.showImage {
+  transition: 1s ease;
+}
+
+.showImage:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition: 1s ease;
 }
