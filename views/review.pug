@@ -3,19 +3,20 @@ extends layout.pug
 include utils.pug
 
 block content 
+    link(rel="stylesheet" href="/stylesheets/review-page.css")
     body 
-        .showImage
-            a(href=`/shows/${showId}`)
-                img(src=show.image)
-        .show=show.name
-        fieldset
-            +validationErrorSummary(errors)
-            form(action=`/shows/${showId}/review` method='post')
+        .review-container
+            .showImage
+                a(href=`/shows/${showId}`)
+                    img(src=show.image)
+            .show=show.name
+                +validationErrorSummary(errors)
+            form(action=`/shows/${showId}/review` method='post' class="review-form-tag")
                 input(type='hidden' name='_csrf' value=csrfToken)
                 label(for='rating') 
                 div(class='review-form')
                     +field('Rating', 'rating', rating)
                 div(class='review-form')
-                    +field('Review', 'review', content)
+                    +field('Review', 'review', content, "textarea")
                 div(class='submit-review-button')
                     button(type='submit' class='post-button') Post       
