@@ -6,16 +6,16 @@ append head
   //- add page specific js
   script(src="/javascripts/index.js" type="module" defer)
 
-block content   
-    body 
+block content
+    body
       .welcomeText
-        h1 Welcome To Shouldsees! 
+        h1 Welcome To Shouldsees!
       .top-rated-container
-        .topRated 
-          p Top Rated
-          .outer-wrapper 
+        .topRated
+          p Top Rated Shows
+          .outer-wrapper
             .wrapper
-              each show in shows 
+              each show in shows
                 .showImages
                   a(href=`/shows/${show.id}`)
                         img(src=show.image)
@@ -23,7 +23,3 @@ block content
                     .showName= show.name
                     .showGenre= show.genre
                     .showCriticRating= show.criticRating
-              
-
-
-

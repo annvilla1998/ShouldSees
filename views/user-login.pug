@@ -34,7 +34,7 @@ html
                 div(class='signup-signin-link') Not a member?
                   a(href='/users/register') Sign up
             div(class='button')
-              form(action="/users/login" method="post")
+              form(action="/users/login" class="demo-class" method="post")
                 input(type="hidden" name="_csrf" value=csrfToken)
                 input(type="hidden" name="email" value="demo@demo.com")
                 input(type="hidden" name="password" value="Demo1!")

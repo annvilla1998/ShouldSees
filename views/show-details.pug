@@ -1,45 +1,64 @@
 extends layout.pug
 
+append head
+    link(rel='stylesheet' href='/stylesheets/show-details.css')
+
 block content
     script(src="/javascripts/index.js" type="module")
     script(src="/javascripts/edit-review.js" type="module")
     script(src="/javascripts/delete-review.js" type="module")
     body
-        .showImage
-            a(href=`/shows/${show.id}`)
-                img(src=show.image)
-        .showName= show.name
-        .showDescription= show.description
-        .showCast= show.cast
-        .showGenre= show.genre
-        .showCriticRating= show.criticRating
-        if user
-            if currentList1
-                .watch-list-display= currentList1.MyShowList.listName
-            if currentList2
-                .watch-list-display= currentList2.MyShowList.listName
-            if currentList3
-                .watch-list-display= currentList3.MyShowList.listName
-            .watch-status
-                form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
-                    input(type="hidden" value=show.id name="show-id-input")
-                    select(class="watch-status-select" id="watch-status-select" name="watch-status-select")
-                        each list in lists
-                            option(value=list.id)= list.listName
-                    button(type="submit" value="Submit" id="submit").watch-status-button Submit
-        a(href=`/shows/${show.id}/review`)
-            button(class="write-review-button") Write Review
-        .reviewsList
-            ul
-            each review in reviews
-                div(id=`review-container-${review.id}`)
-                    li= review.User.username
-                    li(id=`rating-${review.id}`)= review.rating
+        .content-container
+            .container
+                .show-information-container
+                    .showImage
+                        a(href=`/shows/${show.id}`)
+                            img(src=show.image)
+                    .showName= show.name
+                    .showDescription= show.description
+                    .showCast
+                        p= `Starring: ${show.cast}`
+                    .showGenre= show.genre
+                    .showCriticRating
+                        p= "Critic Rating"
+                        h3= show.criticRating
+                    .watch-list-container
+                        h2 Watch Status
+                        hr
+                        if user
+                            if currentList1
+                                .watch-list-display= currentList1.MyShowList.listName
+                            if currentList2
+                                .watch-list-display= currentList2.MyShowList.listName
+                            if currentList3
+                                .watch-list-display= currentList3.MyShowList.listName
+                            .watch-status
+                                form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
+                                    input(type="hidden" value=show.id name="show-id-input")
+                                    select(class="watch-status-select" id="watch-status-select" name="watch-status-select")
+                                        each list in lists
+                                            option(value=list.id)= list.listName
+                                    .watch-status-button
+                                        button(type="submit" value="Submit" id="submit").watch-status-button Submit
+                .review-container
+                    .reviewsList
+                        .write-review-container
+                            a(href=`/shows/${show.id}/review`)
+                                button(class="write-review-button") Write Review
                         ul
-                            li(id=`content-${reviewId}`)= review.content
-                    if locals.authenticated
-                        a(href=`/shows/review/${review.id}/edit`)
-                            button(class='edit-review-button') Edit Review
-                        form(action=`/shows/review/${review.id}/delete` method='post')
-                            input(type="hidden" name="_csrf" value=csrfToken)
-                            button(id=review.id class='delete-review-button') Delete Review
+                        each review in reviews
+                            .review
+                                .dialogbox
+                                    .dialogbody
+                                        .dialogmessage
+                                            div(id=`review-container-${review.id}`)
+                                                li(class="username")= review.User.username
+                                                li(class="rating" id=`rating-${review.id}`)= review.rating
+                                                li(id=`content-${reviewId}`)= review.content
+                                                if locals.authenticated
+                                                    .edit-delete-container
+                                                        a(href=`/shows/review/${review.id}/edit`)
+                                                            button(class='button-48') Edit Review
+                                                        form(action=`/shows/review/${review.id}/delete` method='post')
+                                                            input(type="hidden" name="_csrf" value=csrfToken)
+                                                            button(id=review.id class='button-48') Delete Review

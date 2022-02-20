@@ -5,71 +5,152 @@
 
 body {
   font-family: "Lato", sans-serif;
-  background-color: #fbfbec;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  background-image: url("https://t3.ftcdn.net/jpg/02/03/96/84/240_F_203968482_1gxBR6ZfKcvyWSWL8SfgWtIpxcmuZNBR.jpg");
+  background-size: cover;
+  font-family: "Lato", sans-serif;
 }
 
-/* .page-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-} */
-
-.show-container {
-  /* max-width: 1300px;
-  margin-top: 30px; */
+.content-container {
   display: grid;
   grid-auto-columns: 1fr;
-  grid-template-columns: 1fr, 1fr 1fr 1fr 1fr 1fr 1fr, 1fr;
-  grid-template-rows: 80px 600px 600px 600px;
+  grid-template-columns: auto 1160px auto;
   gap: 0px 0px;
-  grid-template-areas:
-    ". . . h1 h1 . . ."
-    ". want-to-watch want-to-watch want-to-watch want-to-watch want-to-watch want-to-watch . "
-    ". currently-watching currently-watching currently-watching currently-watching currently-watching currently-watching . "
-    ". watched watched watched watched watched watched . ";
 }
 
-.show-container > h1 {
-  grid-area: h1;
+.container {
+  background-color: #fbfbec;
+  grid-area: 1 / 2 / 2 / 3;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-template-rows: 120px 7px 100px 500px 100px 500px 100px 500px 200px;
+  gap: 0px 0px;
+}
+
+.container > h1 {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
+  font-family: "Playfair Display", serif;
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
 
-.want-to-watch > h2 {
-  display: flex;
-  flex-direction: column;
+hr {
+  background-color: #e7e7e7;
+}
+
+.container > h2 {
+  margin-left: 40px;
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+  margin-top: 50px;
 }
 
 .want-to-watch {
-  grid-area: want-to-watch;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  width: 1160px;
+  transform-origin: top left;
+  overflow-x:visible;
+  overflow-y: hidden;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .current-watching {
-  grid-area: currently-watching;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  width: 1160px;
+  transform-origin: top left;
+  overflow-y: scroll;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .watched {
-  grid-area: watched;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  width: 1160px;
+  transform-origin: top left;
+  overflow-y: scroll;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .individual-list-container {
-  padding: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.showName {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+}
+
+.delete-show-button {
+  appearance: none;
+  background-color: #d2dee6;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #797979;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Lato", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  opacity: 1;
+  outline: 0;
+  padding: 15px 15px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.delete-show-button:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #EBEBEB;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.delete-show-button:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.delete-show-button:after {
+  background-color: #FFFFFF;
+}
+
+.showImage {
+  transition: 1s ease;
+}
+
+.showImage:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition: 1s ease;
 }
