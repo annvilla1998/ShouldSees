@@ -4,16 +4,19 @@ include utils.pug
 
 block content
     //- script(src="/javascripts/edit-review.js" type="module")
+    link(rel="stylesheet" href="/stylesheets/index.css")
+    link(rel="stylesheet" href="/stylesheets/edit-review-page.css")
     body
-        .showImage
-            a(href=`/shows/${review.showsId}`)
-                img(src=show.image)
-        .show=show.name
-        fieldset
-            +validationErrorSummary(errors)
+        .edit-review-container
+            .showImage
+                a(href=`/shows/${review.showsId}`)
+                    img(src=show.image)
+            .show=show.name
+                +validationErrorSummary(errors)
             form(action=`/shows/review/${review.id}/edit` class="edit-review" method='POST')
                 input(type='hidden' name='_csrf' value=csrfToken)
-                h1= review.rating
+                .myRating-p
+                    p My Rating: #{review.rating}
                 div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
                 div(class='review-edit-form')
