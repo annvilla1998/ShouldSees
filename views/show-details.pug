@@ -17,10 +17,11 @@ block content
                     .showName= show.name
                     .showDescription= show.description
                     .showCast
-                        p= "Cast: "
-                        p= show.cast
+                        p= `Starring: ${show.cast}`
                     .showGenre= show.genre
-                    .showCriticRating= show.criticRating
+                    .showCriticRating
+                        p= "Critic Rating"
+                        h3= show.criticRating
                     .watch-list-container
                         h2 Watch Status
                         if user
@@ -38,20 +39,20 @@ block content
                                             option(value=list.id)= list.listName
                                     button(type="submit" value="Submit" id="submit").watch-status-button Submit
                 .review-container
-                    a(href=`/shows/${show.id}/review`)
-                        button(class="write-review-button") Write Review
                     .reviewsList
+                        a(href=`/shows/${show.id}/review`)
+                            button(class="write-review-button") Write Review
                         ul
                         each review in reviews
                             .review
                                 div(id=`review-container-${review.id}`)
                                     li= review.User.username
                                     li(id=`rating-${review.id}`)= review.rating
-                                        ul
-                                            li(id=`content-${reviewId}`)= review.content
+                                    li(id=`content-${reviewId}`)= review.content
                                     if locals.authenticated
-                                        a(href=`/shows/review/${review.id}/edit`)
-                                            button(class='edit-review-button') Edit Review
-                                        form(action=`/shows/review/${review.id}/delete` method='post')
-                                            input(type="hidden" name="_csrf" value=csrfToken)
-                                            button(id=review.id class='delete-review-button') Delete Review
+                                        .edit-delete-container
+                                            a(href=`/shows/review/${review.id}/edit`)
+                                                button(class='edit-review-button') Edit Review
+                                            form(action=`/shows/review/${review.id}/delete` method='post')
+                                                input(type="hidden" name="_csrf" value=csrfToken)
+                                                button(id=review.id class='delete-review-button') Delete Review
