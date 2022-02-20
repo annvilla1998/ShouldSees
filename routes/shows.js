@@ -575,18 +575,22 @@ router.post(
 //   })
 // );
 
-router.delete(
+router.post(
   "/review/:id(\\d+)/delete",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const reviewId = req.params.id;
     const review = await Review.findByPk(reviewId);
 
+    let deletedShowId = review.showsId;
     console.log(req.session.auth.userId);
 
     if (req.session.auth.userId === review.userId) {
-      await review.destroy();
       // res.json({ message: `Deleted review with id of ${req.params.id}.` });
-      res.json({ message: "Success" });
+      // res.json({ message: "Success" });
+
+      await review.destroy();
+      res.redirect(`/shows/${deletedShowId}`);
     }
 
     if (req.session.auth.userId !== review.userId) {
@@ -600,6 +604,7 @@ router.delete(
     if (!review) {
       next(reviewNotFoundError(req.params.id));
     }
+
   })
 );
 
