@@ -170,17 +170,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        image: 'https://resizing.flixster.com/115LMLYhiIzdY-xBJk0pcv8ZSY4=/206x305/v2/https://flxt.tmsimg.com/assets/p21226806_b_v13_aa.jpg',
-        releaseDate: "2022-0-28",
-        criticRating: 5.6,
-        name: 'The Woman In The House Across The Street From The Girl In The Window',
-        description: 'Watching the world go by from her living room window, heartbroken Anna sets her sights on a handsome new neighbor until she witnesses a gruesome murder.',
-        cast: 'Kristen Bell, Michael Ealy, Mary Holland, Shelley Hennig, Cameron Britton',
-        genre: 'Mystery thriller',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
         image: 'https://resizing.flixster.com/yxtOnVxIItI7axeOrrpf6Nes4Lo=/206x305/v2/https://flxt.tmsimg.com/assets/p183919_b_v8_ae.jpg',
         releaseDate: "1995-0-16",
         criticRating: 7.6,
