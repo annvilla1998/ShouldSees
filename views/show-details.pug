@@ -24,7 +24,6 @@ block content
                 form(action=`/shows/${show.id}` method="POST" id="select-form-watch-status")
                     input(type="hidden" value=show.id name="show-id-input")
                     select(class="watch-status-select" id="watch-status-select" name="watch-status-select")
-                        option(value="none" id="none")= "--Select--"
                         each list in lists
                             option(value=list.id)= list.listName
                     button(type="submit" value="Submit" id="submit").watch-status-button Submit

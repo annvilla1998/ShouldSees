@@ -25,12 +25,12 @@ form.addEventListener("submit", async (e) => {
       throw res;
     }
     const data = await res.json();
-    console.log("!!!!!!!!!!!!!!DATA:", data.message);
-    console.log("!!!!!!!!!!!!!!newListEntry:", data.newListEntry);
-    console.log(
-      "!!!!!!!!!!!!!!NAAAAAAMEEEEEEE:",
-      data.newListEntry.MyShowList.listName
-    );
+    // console.log("!!!!!!!!!!!!!!DATA:", data.message);
+    // console.log("!!!!!!!!!!!!!!newListEntry:", data.newListEntry);
+    // console.log(
+    //   "!!!!!!!!!!!!!!NAAAAAAMEEEEEEE:",
+    //   data.newListEntry.MyShowList.listName
+    // );
 
     if (data.message === "Success") {
       //change innerhtml for the text (we need to add this)
@@ -43,7 +43,7 @@ form.addEventListener("submit", async (e) => {
       nameDiv.innerHTML = data.newListEntry.MyShowList.listName;
     }
   } catch (err) {
-    handleErrors(err);
+    location.reload(true);
   }
 });
 

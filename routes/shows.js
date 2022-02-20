@@ -146,10 +146,10 @@ router.post(
     const currentlyWatchingId = lists[1].id;
     const watchedId = lists[2].id;
     const { updatedShowListId } = req.body;
-    console.log(
-      "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
-      updatedShowListId
-    );
+    // console.log(
+    //   "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
+    //   updatedShowListId
+    // );
     // search join table to see where this connection exists, if it
     // does delete and create association, if not just create
 
