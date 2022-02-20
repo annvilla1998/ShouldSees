@@ -47,7 +47,7 @@ module.exports = {
     },
     {
       myShowListId: 20,
-      showsId: 21,
+      showsId: 17,
       createdAt: new Date(),
       updatedAt: new Date(),
     },

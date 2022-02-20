@@ -24,75 +24,98 @@ router.get(
     const showId = parseInt(req.params.id, 10);
     const show = await db.Show.findByPk(showId);
 
-    const userId = req.session.auth.userId;
-    const user = await db.User.findByPk(userId);
+    //if not logged in
+    if (req.session.auth === undefined) {
+      const reviews = await Review.findAll({
+        where: {
+          showsId: showId,
+        },
+        include: {
+          model: User,
+        },
+      });
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+      res.render("show-details.pug", {
+        show,
+        showId,
+        reviews,
+      });
 
-    //await MyShows dropdown menu thing
-    const lists = await MyShowList.findAll({
-      where: {
-        userId,
-      },
-    });
+      return;
+    }
 
-    // console.log(lists);
-    // console.log("=================================", lists[2].id);
+    //if logged in
+    if (req.session.auth.userId) {
+      const userId = req.session.auth.userId;
+      const user = await db.User.findByPk(userId);
 
-    const wantToWatchId = lists[0].id;
-    const currentlyWatchingId = lists[1].id;
-    const watchedId = lists[2].id;
-    const currentList1 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: wantToWatchId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    const currentList2 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: currentlyWatchingId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    const currentList3 = await MyShowListShow.findOne({
-      where: {
-        myShowListId: watchedId,
-        showsId: showId,
-      },
-      include: {
-        model: MyShowList,
-      },
-    });
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+      /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    const reviews = await Review.findAll({
-      where: {
-        showsId: showId,
-      },
-      include: {
-        model: User,
-      },
-    });
+      //await MyShows dropdown menu thing
+      const lists = await MyShowList.findAll({
+        where: {
+          userId,
+        },
+      });
 
-    res.render("show-details.pug", {
-      show,
-      showId,
-      reviews,
-      user,
-      lists,
-      wantToWatchId,
-      currentlyWatchingId,
-      watchedId,
-      currentList1,
-      currentList2,
-      currentList3,
-    });
+      // console.log(lists);
+      // console.log("=================================", lists[2].id);
+
+      const wantToWatchId = lists[0].id;
+      const currentlyWatchingId = lists[1].id;
+      const watchedId = lists[2].id;
+      const currentList1 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: wantToWatchId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      const currentList2 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: currentlyWatchingId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      const currentList3 = await MyShowListShow.findOne({
+        where: {
+          myShowListId: watchedId,
+          showsId: showId,
+        },
+        include: {
+          model: MyShowList,
+        },
+      });
+      /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+      const reviews = await Review.findAll({
+        where: {
+          showsId: showId,
+        },
+        include: {
+          model: User,
+        },
+      });
+
+      res.render("show-details.pug", {
+        show,
+        showId,
+        reviews,
+        user,
+        lists,
+        wantToWatchId,
+        currentlyWatchingId,
+        watchedId,
+        currentList1,
+        currentList2,
+        currentList3,
+      });
+    }
   })
 );
 
@@ -123,10 +146,10 @@ router.post(
     const currentlyWatchingId = lists[1].id;
     const watchedId = lists[2].id;
     const { updatedShowListId } = req.body;
-    console.log(
-      "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
-      updatedShowListId
-    );
+    // console.log(
+    //   "$$$$$$$$$$$$$$$$$$$$$$$Updated Show List Id:",
+    //   updatedShowListId
+    // );
     // search join table to see where this connection exists, if it
     // does delete and create association, if not just create
 
@@ -469,42 +492,115 @@ router.get(
 //     res.redirect(`/shows/${review.showsId}`);
 // }))
 
+const reviewNotFoundError = (id) => {
+  const err = Error("Review not found");
+  err.errors = [`Review with id of ${id} could not be found.`];
+  err.title = "Review not found.";
+  err.status = 404;
+  return err;
+};
+
 router.post(
   "/review/:id(\\d+)/edit",
   csrfProtection,
   requireAuth,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const reviewId = parseInt(req.params.id, 10);
+    const review = await Review.findByPk(reviewId);
 
-    let reviewToUpdate = await db.Review.findByPk(reviewId);
+    // const showId = parseInt(req.params.id, 10);
 
-    //let reviewToUpdate = await db.Show.findByPk(reviewId);
+    review.content = req.body.review;
+    review.rating = req.body.rating;
+    await review.save();
 
-    const { userId } = req.session.auth;
-
-    const { rating } = req.body;
-
-    reviewToUpdate = { content: req.body.review, rating };
-
-    if (userId !== reviewToUpdate.userId) {
-      const err = new Error("Unauthorized");
-      err.status = 401;
-      err.message = "You are not authorized to edit this review.";
-      err.title = "Unauthorized";
-      throw err;
-    }
-    await reviewToUpdate.save();
-    res.json({ message: "Success" });
-    res.redirect(`/shows/${reviewToUpdate.showsId}`);
+    // console.log("HELOOOOOOOOOOOOOOOOO");
+    // if (review) {
+    //   await review.update({
+    //     content: req.body.content,
+    //     showsId: showId,
+    //     rating: req.body.rating,
+    //     userId: res.locals.user.id,
+    //   });
+    //   // res.json({ review });
+    // } else {
+    //   next(reviewNotFoundError(reviewId));
+    // }
+    res.redirect(`/shows/${review.showsId}`);
   })
 );
 
-router.delete("/review/:id(\\d+)/delete", async (req, res) => {
-  const reviewId = req.params.id;
-  const review = await Review.findByPk(reviewId);
-  await review.destroy();
+// router.post(
+//   "/review/:id(\\d+)/edit",
+//   csrfProtection,
+//   requireAuth,
+//   asyncHandler(async (req, res) => {
+//     const reviewId = parseInt(req.params.id, 10);
 
-  res.json({ message: "Success" });
-});
+//     let reviewToUpdate = await db.Review.findOne({
+//       where: {
+//         reviewId,
+//       },
+//     });
+//     console.log("$%$$%$%$%$%$%$%$%$", reviewToUpdate);
+
+//     //let reviewToUpdate = await db.Show.findByPk(reviewId);
+
+//     const { userId } = req.session.auth;
+
+//     const { rating } = req.body;
+
+//     const { showsId } = reviewToUpdate.showsId;
+
+//     if (userId !== reviewToUpdate.userId) {
+//       const err = new Error("Unauthorized");
+//       err.status = 401;
+//       err.message = "You are not authorized to edit this review.";
+//       err.title = "Unauthorized";
+//       throw err;
+//     }
+
+//     await reviewToUpdate.destroy();
+
+//     const updatedReview = await db.Review.build({
+//       content: req.body.review,
+//       userId,
+//       showsId,
+//       rating,
+//     });
+
+//     await updatedReview.save();
+//     // res.json({ message: "Success" });
+//     res.redirect(`/shows/${updatedReview.showsId}`);
+//   })
+// );
+
+router.delete(
+  "/review/:id(\\d+)/delete",
+  asyncHandler(async (req, res) => {
+    const reviewId = req.params.id;
+    const review = await Review.findByPk(reviewId);
+
+    console.log(req.session.auth.userId);
+
+    if (req.session.auth.userId === review.userId) {
+      await review.destroy();
+      // res.json({ message: `Deleted review with id of ${req.params.id}.` });
+      res.json({ message: "Success" });
+    }
+
+    if (req.session.auth.userId !== review.userId) {
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      err.message = "You are not authorized to delete this review.";
+      err.title = "Unauthorized";
+      throw err;
+    }
+
+    if (!review) {
+      next(reviewNotFoundError(req.params.id));
+    }
+  })
+);
 
 module.exports = router;
