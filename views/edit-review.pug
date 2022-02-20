@@ -20,6 +20,6 @@ block content
                 div(class='rating-edit-form')
                     +field('Rating', 'rating', review.rating)
                 div(class='review-edit-form')
-                    +field('Review', 'review', review.content)
+                    +field('Review', 'review', review.content, "textarea")
                 div(class='submit-edit-button')
                     button(id= review.id type='submit' class='edit-post-button') Edit

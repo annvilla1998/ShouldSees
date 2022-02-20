@@ -9,6 +9,7 @@ body {
     padding: 30px;
     margin: 0px 200px;
     display: grid;  
+    column-gap: 50px;
     grid-template-areas: 
         "picture title"
         "picture form"
@@ -28,7 +29,6 @@ body {
 .show {
     grid-area: title;
     font-size: 35px;
-    padding-top: 50px;
     margin: 30px;
     font-family: "Playfair Display", serif;
 }
@@ -36,14 +36,15 @@ body {
 .edit-review {
     grid-area: form;
     padding: 10px;
-    margin: 30px;
+    margin: 0px 30px;
     display: flex;
     flex-direction: column;
+    width: 500px;
 }
 
 .myRating-p {
     font-size: 25px;
-    margin: 10px;
+    margin: 0px 10px;
     color: #764f40;
     font-family: "Montserrat", sans-serif;
 }
@@ -71,9 +72,21 @@ body {
     padding-top: 10px;
 }
 
+textarea {
+    resize: none;
+    overflow: scroll;
+    padding: 12px 20px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: "Lato", sans-serif;
+    width: 500px;
+  }
+
 label {
     padding: 10px;
     font-family: "Montserrat", sans-serif;
+    display: flex;
+    align-items: flex-start;
 }
 
 input {
@@ -81,6 +94,7 @@ input {
     border: 1px solid;
     border-radius: 4px;
     font-family: "Lato", sans-serif;
+    width: 500px;
 }
 
 img {
