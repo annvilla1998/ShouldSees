@@ -1,22 +1,32 @@
 # **Shouldsees**, a clone of GoodReads
 
-This is a clone of Good Reads called **Shouldsees**. **Shouldsees** is a website where users can keep track of shows that they want to watch, are currently watching, and have watched. Users can view a show's information, as well as reviews left by other users, to help them formulate the decision of if they want to watch the show or not. Users can also leave reviews and ratings of shows to share their opinions and help other users decide if the show is worth watching or not.
+[Shouldsees](https://shouldsees.herokuapp.com/) is a website where users can keep track of shows that they want to watch, are currently watching, and have watched. Users can view a show's information, as well as reviews left by other users, to help them formulate the decision of if they want to watch the show or not. Users can also leave reviews and ratings of shows to share their opinions and help other users decide if the show is worth watching or not.
+
+## Meet the Team~
+
+This website is brought to you by [Anabel Villalobos](https://github.com/annvilla1998), [Shams Shaikh](https://github.com/shams1987), [Sharon Fang](https://github.com/milkyomo), and [Ty Rickers](https://github.com/exclaMachine). Thank you for visiting our site! 😊❤
+
+---
+
+### Link to live site
+
+https://shouldsees.herokuapp.com/
+
+### Link to Wiki docs
+
+https://github.com/annvilla1998/ShouldSees/wiki
+
+---
 
 ## How to start development environment
 
 To start the development environment, run `npm install` and `npm start`. View the `.env.example` to assist in development environment creation.
 
+---
+
 ## Technologies used
 
 **Shouldsees** utilizes javascript, express, and sequelize. Pug is used to render the HTML of the site, as well as CSS for styling. Csurf and bcrypt are used for user protection, and general security of the site. Faker was used in development to assist in creation of example users.
-
-## Link to live site
-
-https://shouldsees.herokuapp.com/
-
-## Link to Wiki docs
-
-https://github.com/annvilla1998/ShouldSees/wiki
 
 ## Two features that show off the team’s technical abilities
 
@@ -31,6 +41,8 @@ We had trouble with our database many times throughout this project, which led t
 The second issue with our database came when we had to utilize the join table to establish relationships between `Shows` and `Show Lists` for our `Watch Status` feature. We originally had a `showListId` on each show, but realized that that was faulty logic, because one show shouldn’t only be connected to a single show list. It took us some time to figure this out, but a lot of our project depended on this crucial information. After adding `showId` and `showListId` to our join table, we were able to properly use the join table to establish and delete relationships with the click of a button that utilized event listeners. After updating our join table model, we were now able to grab information with event listeners from the pug forms, and send it to our backend for processing, and then send it back to the front end for users to see. With that, we completed our `Watch Status` feature!
 
 The challenges that were mentioned here were only two of many, many challenges that we faced in this week that we spent on this project. The issues with our database taught us the importance of thorough planning before starting a project. The database is the backbone of the website, and to run properly, information needs to be properly linked and thought through. Through many failed attempts of implementation, we realized the holes in our plans that we didn’t even know until we came across dead ends of logic. We finished this project with new knowledge, and will continue to use the experience that we gained from problem solving and revising our plans in the future. All of the commented out code in this project are all battle scars that we can look back on to see all the trial and errors that we went through to implement our visions.
+
+---
 
 ## Highlight code snippets
 
