@@ -56,9 +56,10 @@ block content
                                                     li(class="rating" id=`rating-${review.id}`)= review.rating
                                                     li(id=`content-${reviewId}`)= review.content
                                                     if locals.authenticated
-                                                        .edit-delete-container
-                                                            a(href=`/shows/review/${review.id}/edit`)
-                                                                button(class='button-48') Edit Review
-                                                            form(action=`/shows/review/${review.id}/delete` method='post')
-                                                                input(type="hidden" name="_csrf" value=csrfToken)
-                                                                button(id=review.id class='delete-review-button') Delete Review
+                                                        if review.userId === user.id
+                                                            .edit-delete-container
+                                                                a(href=`/shows/review/${review.id}/edit`)
+                                                                    button(class='button-48') Edit Review
+                                                                form(action=`/shows/review/${review.id}/delete` method='post')
+                                                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                                                    button(id=review.id class='delete-review-button') Delete Review
