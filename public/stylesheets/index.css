@@ -1,6 +1,13 @@
-body {
+/* body {
     background-color: #fbfbec;
-}
+} */
+
+body {
+    background-image: url("../clouds.jpg");
+    background-size: cover;
+    background-color: #fbfbec;
+    display: block;
+  }
 
 .welcomeText {
     font-family: "Playfair Display", serif;
@@ -40,6 +47,7 @@ body {
 .top-rated-container {
     display: flex;
     padding: 50px;
+    max-height: 600px;
 }
 
 
@@ -57,4 +65,8 @@ body {
     overflow: hidden;
     line-height: 1.5;
     box-sizing: border-box;
+}
+
+.showImages {
+    max-height: 310px;
 }
