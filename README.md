@@ -4,7 +4,7 @@
 
 ## Meet the Team~
 
-This website is brought to you by [Anabel Villalobos](https://github.com/annvilla1998), [Shams Shaikh](https://github.com/shams1987), [Sharon Fang](https://github.com/milkyomo), and [Ty Rickers](https://github.com/exclaMachine). Thank you for visiting our site! 😊
+This website is brought to you by [Anabel Villalobos](https://github.com/annvilla1998), [Shams Shaikh](https://github.com/shams1987), [Sharon Fang](https://github.com/milkyomo), and [Ty Rickers](https://github.com/exclaMachine). Thank you for visiting our site! 😊❤
 
 ---
 
