@@ -76,6 +76,7 @@ body {
     color: #333333;
     background-color: #f4f1ea;
     line-height: 1;
+    cursor: pointer;
 }
 
 .review-edit-form {
