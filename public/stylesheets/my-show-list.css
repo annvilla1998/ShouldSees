@@ -156,3 +156,7 @@ hr {
   transform: scale(1.1);
   transition: 1s ease;
 }
+
+.emptyMessage {
+  margin: 20px;
+}

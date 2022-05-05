@@ -12,6 +12,8 @@ block content
                 hr
                 h2 Want To Watch
                 .want-to-watch
+                    if wantToWatch.length === 0
+                        .emptyMessage Add some shows to your Want to Watch list!
                     each show in wantToWatch
                         .individual-list-container
                             .showImage
@@ -29,6 +31,8 @@ block content
                                     button(type="submit" class='delete-show-button') Remove
                 h2 Currently Watching
                 .current-watching
+                    if currentlyWatching.length === 0
+                        .emptyMessage Add some shows to your Currently Watching list!
                     each show in currentlyWatching
                         .individual-list-container
                             .showImage
@@ -46,6 +50,8 @@ block content
                                     button(type="submit" class='delete-show-button') Remove
                 h2 Watched
                 .watched
+                    if watched.length === 0
+                        .emptyMessage Add some shows to your Watched list!
                     each show in watched
                         .individual-list-container
                             .showImage
